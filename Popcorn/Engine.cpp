@@ -43,12 +43,16 @@ int Inner_Width = 21;
 int Platform_X_Pos = 0;
 int Platform_X_Step = Global_Scale * 2;
 int Platform_Width = 28;
+
+
 int Ball_X_Pos = 20, Ball_Y_Pos = 170;
+double Ball_Speed = 3.0, Ball_Direction = M_PI + M_PI_4;
 
 
 
 RECT Platform_Rect, Prev_Platform_Rect;
 RECT Level_Rect;
+RECT Ball_Rect, Prev_Ball_Rect;
 
 char Level_01[Level_Width][Level_Height] =
 {
@@ -317,6 +321,24 @@ static void Draw_Platform(HDC hdc, int x, int y)
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 
+void Draw_Ball(HDC hdc, RECT& paint_area)
+{
+	// clear the previous ball
+   SelectObject(hdc, BG_Pen);
+   SelectObject(hdc, BG_Brush);
+
+	Rectangle(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
+
+	// draw the ball
+   SelectObject(hdc, Ball_Pen);
+   SelectObject(hdc, Ball_Brush);
+
+   Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
+
+}
+
+// --------------------------------------------------------------------------------------------------------------------------------------
+
 void Draw_Frame(HDC hdc, RECT &paint_area)
 { // drawer screen game
 
@@ -328,21 +350,15 @@ void Draw_Frame(HDC hdc, RECT &paint_area)
 	if (IntersectRect(&intersection_rect, &paint_area, &Platform_Rect) )
 	Draw_Platform(hdc, Level_X_Offset + Platform_X_Pos, Platform_Y_Pos);
 
-   int i;
+  /* int i;
 
    for (i = 0; i < 16; i++)
    {
       Draw_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, ELT_0, i);
       Draw_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_0, i);
-   }
-
-   int x = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
-	int y = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
-
-   SelectObject(hdc, Ball_Pen);
-   SelectObject(hdc, Ball_Brush);
-
-   Ellipse(hdc, x, y , x + Ball_Size * Global_Scale - 1, y + Ball_Size * Global_Scale - 1);
+   }*/
+   if (IntersectRect(&intersection_rect, &paint_area, &Ball_Rect))
+	Draw_Ball(hdc, paint_area);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -369,9 +385,30 @@ int On_Key_Down(Ekey_Type key_type)
 }
 
 // --------------------------------------------------------------------------------------------------------------------------------------
+void Move_Ball()
+{
+
+   Prev_Ball_Rect = Ball_Rect;
+
+	Ball_X_Pos += (int)(Ball_Speed * cos(Ball_Direction / 2.0));
+	Ball_Y_Pos -= (int)(Ball_Speed * sin(Ball_Direction / 2.0));
+
+   Ball_Rect.left = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
+   Ball_Rect.top = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
+   Ball_Rect.right = Ball_Rect.left + Ball_Size * Global_Scale;
+   Ball_Rect.bottom = Ball_Rect.top + Ball_Size * Global_Scale;
+
+   InvalidateRect(Hwnd, &Prev_Ball_Rect, FALSE);
+	InvalidateRect(Hwnd, &Ball_Rect, FALSE);
+
+}
+
+// --------------------------------------------------------------------------------------------------------------------------------------
 
 int On_Timer()
 {
+   Move_Ball();
+
 	return 0;
 }
 
