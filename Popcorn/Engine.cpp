@@ -38,6 +38,8 @@ const int Circle_Size = 7;
 const int Platform_Y_Pos = 185; // Y position of the platform
 const int Platform_Height = 7; // width of the platform
 const int Ball_Size = 4; // size of the ball
+const int Max_X_Pos = Level_X_Offset + Level_Width * Cell_Width - Ball_Size; // max X position of the ball
+const int Max_Y_Pos = 199 - Ball_Size; // max Y position of the ball
 
 int Inner_Width = 21;
 int Platform_X_Pos = 0;
@@ -46,7 +48,7 @@ int Platform_Width = 28;
 
 
 int Ball_X_Pos = 20, Ball_Y_Pos = 170;
-double Ball_Speed = 3.0, Ball_Direction = M_PI + M_PI_4;
+double Ball_Speed = 3.0, Ball_Direction = M_PI - M_PI_4;
 
 
 
@@ -387,11 +389,44 @@ int On_Key_Down(Ekey_Type key_type)
 // --------------------------------------------------------------------------------------------------------------------------------------
 void Move_Ball()
 {
+   int next_x_pos, next_y_pos;
 
    Prev_Ball_Rect = Ball_Rect;
 
-	Ball_X_Pos += (int)(Ball_Speed * cos(Ball_Direction / 2.0));
-	Ball_Y_Pos -= (int)(Ball_Speed * sin(Ball_Direction / 2.0));
+	next_x_pos = Ball_X_Pos + (int)(Ball_Speed * cos(Ball_Direction));
+	next_y_pos = Ball_Y_Pos - (int)(Ball_Speed * sin(Ball_Direction));
+
+	// adjusting the position when reflecting the ball
+   if (next_x_pos < 0)
+   {
+      next_x_pos = -next_x_pos;
+		Ball_Direction = M_PI - Ball_Direction;
+   }
+
+   if (next_y_pos < Level_Y_Offset)
+   {
+      next_y_pos = Level_Y_Offset - (next_y_pos - Level_Y_Offset);
+      Ball_Direction = -Ball_Direction;
+   }
+
+   if (next_x_pos > Max_X_Pos)
+   {
+		next_x_pos = Max_X_Pos - (next_x_pos - Max_X_Pos);
+		Ball_Direction = M_PI - Ball_Direction;
+   }
+
+	if (next_y_pos > Max_Y_Pos)
+	{
+		next_y_pos = Max_Y_Pos - (next_y_pos - Max_Y_Pos);
+		Ball_Direction = M_PI + (M_PI - Ball_Direction);
+	}
+
+   // move the ball
+   Ball_X_Pos = next_x_pos;
+   Ball_Y_Pos = next_y_pos;
+
+	Ball_X_Pos += (int)(Ball_Speed * cos(Ball_Direction ));
+	Ball_Y_Pos -= (int)(Ball_Speed * sin(Ball_Direction ));
 
    Ball_Rect.left = (Level_X_Offset + Ball_X_Pos) * Global_Scale;
    Ball_Rect.top = (Level_Y_Offset + Ball_Y_Pos) * Global_Scale;
