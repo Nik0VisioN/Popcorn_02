@@ -23,8 +23,8 @@ char Level_01[AsEngine::Level_Height][AsEngine::Level_Width] =
 // --------------------------------------------------------------------------------------------------------------------------------------
 
 AsEngine::AsEngine()
-: Inner_Width (21), Platform_X_Pos (Border_X_Offset), Platform_X_Step (Global_Scale * 2), Platform_Width (28), Ball_X_Pos (20), Ball_Y_Pos (170),
-Ball_Speed (3.0), Ball_Direction (M_PI - M_PI_4)
+: Inner_Width(21), Platform_X_Pos(Border_X_Offset), Platform_X_Step(Global_Scale * 2), Platform_Width(28), Ball_X_Pos(20), Ball_Y_Pos(170),
+  Ball_Speed(3.0), Ball_Direction(M_PI - M_PI_4)
 {
 };
 
@@ -426,7 +426,7 @@ void AsEngine::Chech_Level_Brick_Hit(int &next_y_pos)
 {// correct the position of the ball when it is out of bricks
 
    int i, j;
-   int brick_y_pos = Level_Y_Offset + Level_Height * Cell_Width;
+   int brick_y_pos = Level_Y_Offset + Level_Height * Cell_Height;
 
    for (i = Level_Height - 1; i >= 0; i--)
    {
