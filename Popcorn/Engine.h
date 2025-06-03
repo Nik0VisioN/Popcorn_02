@@ -30,15 +30,18 @@ enum Ekey_Type
 	EKT_Right,
 	EKT_Space,
 };
-
 // --------------------------------------------------------------------------------------------------------------------------------------
-
 const int Timer_ID = WM_USER + 1; // ID of the timer
-
 // --------------------------------------------------------------------------------------------------------------------------------------
 class AsEngine;
 class ALevel;
+class AsPlatform;
+class AsBorder;
+// --------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+//CLASSES
 // --------------------------------------------------------------------------------------------------------------------------------------
 class ABall
 {
@@ -46,8 +49,10 @@ public:
 
 	ABall();
 
-	void Draw(HDC hdc, RECT& paint_area, AsEngine* engine);
-	void Move(AsEngine *engine, ALevel *level);
+	void Init();
+
+	void Draw(HDC hdc, RECT& paint_area, AsEngine *engine);
+	void Move(AsEngine *engine, ALevel *level, AsPlatform *platform);
 
 	double Ball_Direction;
 
@@ -66,7 +71,6 @@ private:
 
 
 
-
 // --------------------------------------------------------------------------------------------------------------------------------------
 class ALevel
 {
@@ -81,8 +85,8 @@ public:
 	static const int Level_Y_Offset = 6; // offset of the level
 	static const int Cell_Width = 16; // width of the cell
 	static const int Cell_Height = 8; // height of the cell
-private:
 
+private:
 	void Draw_Brick(HDC hdc, int x, int y, Ebrick_Type brick_type);
 	void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush);
 	void Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, Eletter_Type letter_type, int rotation_step);
@@ -93,6 +97,58 @@ private:
 
 	static const int Brick_Width = 15; // width of the brick
 	static const int Brick_Height = 7; // height of the brick
+};
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------
+class AsPlatform
+{
+public:
+	AsPlatform();
+
+	void Init();
+	void Redraw_Platform(AsEngine* engine);
+	void Draw(HDC hdc, AsEngine *engine, RECT &paint_area);
+
+	int X_Pos;
+	int Width;
+	int X_Step;
+
+	static const int Y_Pos = 185; // Y position of the platform
+
+private:
+	int Inner_Width;
+
+	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
+	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush;
+
+	RECT Platform_Rect, Prev_Platform_Rect;
+
+	static const int Height = 7; // width of the platform
+	static const int Circle_Size = 7;
+};
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------
+class AsBorder
+{
+public:
+	void Init();
+
+	void Draw_Element(HDC hdc, int x, int y, bool top_border, AsEngine *engine);
+	void Draw(HDC hdc, RECT& paint_area, AsEngine *engine);
+
+	HPEN Border_Blue_Pen, Border_White_Pen;
+	HBRUSH Border_Blue_Brush, Border_White_Brush;
+
+	static const int Border_X_Offset = 6;
+	static const int Border_Y_Offset = 4;
+
+private:
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -113,42 +169,20 @@ public:
 	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN& pen, HBRUSH& brush);
 
 	HWND Hwnd;
-	int Platform_X_Pos;
-	int Platform_Width;
 
 	HPEN BG_Pen;
 	HBRUSH BG_Brush;
 
-
 	static const int Global_Scale = 3; // scale of the game
 	static const int Max_X_Pos = ALevel::Level_X_Offset + ALevel::Cell_Width * ALevel::Level_Width; // max X position of the ball
 	static const int Max_Y_Pos = 199 - ABall::Ball_Size; // max Y position of the ball
-	static const int Platform_Y_Pos = 185; // Y position of the platform
-	static const int Border_X_Offset = 6;
-	static const int Border_Y_Offset = 4;
 
 private:
-	void Redraw_Platform();
-	void Draw_Platform(HDC hdc, int x, int y);
-	void Draw_Border(HDC hdc, int x, int y, bool top_border);
-	void Draw_Bounds(HDC hdc, RECT &paint_area);
-
-
-
-	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen, Border_Blue_Pen, Border_White_Pen;
-	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush, Border_Blue_Brush, Border_White_Brush;
-
-	int Inner_Width;
-	int Platform_X_Step;
-
-
-	RECT Platform_Rect, Prev_Platform_Rect;	
 
 	ABall Ball; // ball object
 	ALevel Level; // level object
-
-	static const int Circle_Size = 7;
-	static const int Platform_Height = 7; // width of the platform
+	AsPlatform Platform; // platform object
+	AsBorder Border; // border object
 };
 
 // --------------------------------------------------------------------------------------------------------------------------------------
