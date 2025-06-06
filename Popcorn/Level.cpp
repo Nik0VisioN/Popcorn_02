@@ -2,7 +2,7 @@
 
 
 
-char Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
+char ALevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -20,10 +20,9 @@ char Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-
 // ALevel
 ALevel::ALevel()
-   : Letter_Pen(0), Brick_Red_Pen(0), Brick_Blue_Pen(0), Brick_Red_Brush(0), Brick_Blue_Brush(0), Level_Rect{}
+: Letter_Pen(0), Brick_Red_Pen(0), Brick_Blue_Pen(0), Brick_Red_Brush(0), Brick_Blue_Brush(0), Level_Rect{}
 {
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -65,17 +64,19 @@ void ALevel::Chech_Level_Brick_Hit(int& next_y_pos, double& ball_direction)
    }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-void ALevel::Draw(HDC hdc, RECT& paint_area)
-{ // drawer level
+void ALevel::Draw(HWND hwnd, HDC hdc, RECT &paint_area)
+{ // output all bricks of the level
    int i, j;
    RECT intersection_rect;
-
+  
    if (!IntersectRect(&intersection_rect, &paint_area, &Level_Rect))
       return; // if the level is not in the paint area, do not draw it
 
    for (i = 0; i < AsConfig::Level_Height; i++)
       for (j = 0; j < AsConfig::Level_Width; j++)
          Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (Ebrick_Type)Level_01[i][j]);
+
+   Active_Brick.Draw(hdc, paint_area);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void ALevel::Draw_Brick(HDC hdc, int x, int y, Ebrick_Type brick_type)
@@ -106,7 +107,7 @@ void ALevel::Draw_Brick(HDC hdc, int x, int y, Ebrick_Type brick_type)
    SelectObject(hdc, pen);
    SelectObject(hdc, brush);
 
-   RoundRect(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + Brick_Width) * AsConfig::Global_Scale, (y + Brick_Height) * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
+   RoundRect(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + AsConfig::Brick_Width) * AsConfig::Global_Scale, (y + AsConfig::Brick_Height) * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
 
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -136,7 +137,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, El
    bool switch_color;
    double offset;
    double rotation_angle; // rotation angle in radians
-   int brick_half_height = Brick_Height * AsConfig::Global_Scale / 2;
+   int brick_half_height = AsConfig::Brick_Height * AsConfig::Global_Scale / 2;
    int back_part_offset;
    HPEN front_pen, back_pen;
    HBRUSH front_brush, back_brush;
@@ -176,13 +177,13 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, El
       SelectObject(hdc, back_pen);
       SelectObject(hdc, back_brush);
 
-      Rectangle(hdc, x, y + brick_half_height - AsConfig::Global_Scale, x + Brick_Width * AsConfig::Global_Scale, y + brick_half_height);
+      Rectangle(hdc, x, y + brick_half_height - AsConfig::Global_Scale, x + AsConfig::Brick_Width * AsConfig::Global_Scale, y + brick_half_height);
 
       // draw the front part
       SelectObject(hdc, front_pen);
       SelectObject(hdc, front_brush);
 
-      Rectangle(hdc, x, y + brick_half_height, x + Brick_Width * AsConfig::Global_Scale, y + brick_half_height + AsConfig::Global_Scale);
+      Rectangle(hdc, x, y + brick_half_height, x + AsConfig::Brick_Width * AsConfig::Global_Scale, y + brick_half_height + AsConfig::Global_Scale);
    }
    else
    {
@@ -205,13 +206,13 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, El
 
       offset = 3.0 * (1.0 - fabs(xform.eM22)) * (double)AsConfig::Global_Scale;
       back_part_offset = (int)round(offset);
-      Rectangle(hdc, 0, -brick_half_height - back_part_offset, Brick_Width * AsConfig::Global_Scale, brick_half_height - (int)round(offset));
+      Rectangle(hdc, 0, -brick_half_height - back_part_offset, AsConfig::Brick_Width * AsConfig::Global_Scale, brick_half_height - (int)round(offset));
 
       // draw the front part
       SelectObject(hdc, front_pen);
       SelectObject(hdc, front_brush);
 
-      Rectangle(hdc, 0, -brick_half_height, Brick_Width * AsConfig::Global_Scale, brick_half_height);
+      Rectangle(hdc, 0, -brick_half_height, AsConfig::Brick_Width * AsConfig::Global_Scale, brick_half_height);
 
       if (rotation_step > 4 && rotation_step < 12)
       {

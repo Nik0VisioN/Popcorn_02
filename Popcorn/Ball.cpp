@@ -36,7 +36,7 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
 {
    int next_x_pos, next_y_pos;
    int max_x_pos = AsConfig::Max_X_Pos - AsConfig::Ball_Size;
-   int platform_y_pos = AsConfig::Y_Pos - AsConfig::Ball_Size;
+   int platform_y_pos = AsConfig::Platform_Y_Pos - AsConfig::Ball_Size;
 
    Prev_Ball_Rect = Ball_Rect;
 

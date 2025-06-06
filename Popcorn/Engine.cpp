@@ -23,14 +23,14 @@ void AsEngine::Init_Engine(HWND hwnd)
 
    Platform.Redraw_Platform(Hwnd);
 
-   SetTimer(Hwnd, Timer_ID, 50, 0);
+   SetTimer(Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
 
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 { // drawer screen game
 
-      Level.Draw(hdc, paint_area);
+      Level.Draw(Hwnd, hdc, paint_area);
 
       Platform.Draw(hdc, BG_Pen, BG_Brush, paint_area);
 
@@ -78,6 +78,9 @@ int AsEngine::On_Key_Down(Ekey_Type key_type)
 int AsEngine::On_Timer()
 {
    Ball.Move(Hwnd, &Level, Platform.X_Pos, Platform.Width);
+
+   Level.Active_Brick.Act(Hwnd);
+
    return 0; 
 }
 // --------------------------------------------------------------------------------------------------------------------------------------

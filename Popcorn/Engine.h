@@ -29,12 +29,10 @@ public:
 	int On_Key_Down(Ekey_Type key_type);
 	int On_Timer();
 
+private:
 	HWND Hwnd;
-
 	HPEN BG_Pen;
 	HBRUSH BG_Brush;
-
-private:
 
 	ABall Ball; // ball object
 	ALevel Level; // level object
