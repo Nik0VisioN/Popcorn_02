@@ -11,7 +11,7 @@ public:
 
 	void Init();
 
-	void Draw(HDC hdc, RECT& paint_area, HPEN bg_pen, HBRUSH bg_brush);
+	void Draw(HDC hdc, RECT& paint_area);
 	void Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_width);
 
 private:

@@ -15,25 +15,25 @@ void AsBorder::Init()
 
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-void AsBorder::Draw(HDC hdc, RECT& paint_area, HPEN bg_pen, HBRUSH bg_brush)
+void AsBorder::Draw(HDC hdc, RECT& paint_area)
 { // drawer bounds around the game
 
    int i;
 
    // 1. draw line on the left side
    for (i = 0; i < 50; i++)
-      Draw_Element(hdc, 2, 1 + i * 4, false, bg_pen, bg_brush);
+      Draw_Element(hdc, 2, 1 + i * 4, false);
 
    // 2. draw line on the right side
    for (i = 0; i < 50; i++)
-      Draw_Element(hdc, 201, 1 + i * 4, false, bg_pen, bg_brush);
+      Draw_Element(hdc, 201, 1 + i * 4, false);
 
    // 3. draw line on the top side
    for (i = 0; i < 50; i++)
-      Draw_Element(hdc, 3 + i * 4, 0, true, bg_pen, bg_brush);
+      Draw_Element(hdc, 3 + i * 4, 0, true);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-void AsBorder::Draw_Element(HDC hdc, int x, int y, bool top_border, HPEN bg_pen, HBRUSH bg_brush)
+void AsBorder::Draw_Element(HDC hdc, int x, int y, bool top_border)
 {// drawer border around the game
 
    // draw color blue in the border
@@ -55,8 +55,8 @@ void AsBorder::Draw_Element(HDC hdc, int x, int y, bool top_border, HPEN bg_pen,
       Rectangle(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + 1) * AsConfig::Global_Scale, (y + 4) * AsConfig::Global_Scale);
 
    // draw square in the border
-   SelectObject(hdc, bg_pen);
-   SelectObject(hdc, bg_brush);
+   SelectObject(hdc, AsConfig::BG_Pen);
+   SelectObject(hdc, AsConfig::BG_Brush);
 
    if (top_border)
       Rectangle(hdc, (x + 2) * AsConfig::Global_Scale, (y + 2) * AsConfig::Global_Scale, (x + 3) * AsConfig::Global_Scale, (y + 3) * AsConfig::Global_Scale);

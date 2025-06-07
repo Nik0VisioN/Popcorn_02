@@ -10,7 +10,7 @@ public:
 
 	void Init();
 	void Redraw_Platform(HWND hwnd);
-	void Draw(HDC hdc, HPEN bg_pen, HBRUSH bg_brush, RECT& paint_area);
+	void Draw(HDC hdc, RECT& paint_area);
 
 	int X_Pos;
 	int Width;
