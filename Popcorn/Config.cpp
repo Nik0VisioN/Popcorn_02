@@ -12,6 +12,8 @@ AColor::AColor(unsigned char r, unsigned char g, unsigned char b)
 
 
 //AsConfig
+int AsConfig::Current_Timer_Tick = 0;
+
 const AColor AsConfig::Red_Brick_Color (255, 85, 255);
 const AColor AsConfig::Blue_Brick_Color(85, 255, 255);
 const AColor AsConfig::BG_Color(15, 73, 31);
@@ -40,4 +42,10 @@ void AsConfig::Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char 
    brush = CreateSolidBrush(RGB(r, g, b));
 
 };
+// --------------------------------------------------------------------------------------------------------------------------------------
+int AsConfig::Rand(int range)
+{
+	// Generate a random number in the range [0, ... , range - 1]
+   return rand() * range / RAND_MAX;
+}
 // --------------------------------------------------------------------------------------------------------------------------------------
