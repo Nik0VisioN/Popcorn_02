@@ -21,6 +21,8 @@ void AsEngine::Init_Engine(HWND hwnd)
    Platform.Init();
    Border.Init();
 
+   Platform.Set_State(EPS_Roll_In);
+
    Platform.Redraw_Platform(Hwnd);
 
    SetTimer(Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
