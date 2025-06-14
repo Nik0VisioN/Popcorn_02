@@ -8,16 +8,16 @@ HBRUSH AActive_Brick::Fading_Blue_Brick_Brushes[Max_Fade_Step];
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 AActive_Brick::AActive_Brick(Ebrick_Type brick_type)
-	: Fade_Step(0), Brick_Type(brick_type)
+	: Fade_Step(0), Brick_Type(brick_type), Brick_Rect{}
 {
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-void AActive_Brick::Act(HWND hwnd)
+void AActive_Brick::Act()
 {
    if (Fade_Step < Max_Fade_Step - 1)
    {
       ++Fade_Step;
-      InvalidateRect(hwnd, &Brick_Rect, FALSE);
+      InvalidateRect(AsConfig::Hwnd, &Brick_Rect, FALSE);
    }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------

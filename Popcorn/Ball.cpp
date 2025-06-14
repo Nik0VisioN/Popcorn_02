@@ -32,7 +32,7 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
    Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_width)
+void ABall::Move(ALevel* level, int platform_x_pos, int platform_width)
 {
    int next_x_pos, next_y_pos;
    int max_x_pos = AsConfig::Max_X_Pos - AsConfig::Ball_Size;
@@ -94,7 +94,7 @@ void ABall::Move(HWND hwnd, ALevel* level, int platform_x_pos, int platform_widt
    Ball_Rect.right = Ball_Rect.left + AsConfig::Ball_Size * AsConfig::Global_Scale;
    Ball_Rect.bottom = Ball_Rect.top + AsConfig::Ball_Size * AsConfig::Global_Scale;
 
-   InvalidateRect(hwnd, &Prev_Ball_Rect, FALSE);
-   InvalidateRect(hwnd, &Ball_Rect, FALSE);
+   InvalidateRect(AsConfig::Hwnd, &Prev_Ball_Rect, FALSE);
+   InvalidateRect(AsConfig::Hwnd, &Ball_Rect, FALSE);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------

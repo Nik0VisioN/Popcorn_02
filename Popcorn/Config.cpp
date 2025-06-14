@@ -20,6 +20,7 @@ const AColor AsConfig::BG_Color(15, 73, 31);
 
 HPEN AsConfig::BG_Pen;
 HBRUSH AsConfig::BG_Brush;
+HWND AsConfig::Hwnd;
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsConfig::Setup_Colors()
 {

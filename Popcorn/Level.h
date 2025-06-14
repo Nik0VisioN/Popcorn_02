@@ -19,7 +19,7 @@ public:
 
 	void Init();
 	void Chech_Level_Brick_Hit(int& next_y_pos, double& ball_direction);
-	void Draw(HWND hwnd, HDC hdc, RECT& paint_area);
+	void Draw(HDC hdc, RECT& paint_area);
 
 	AActive_Brick Active_Brick;
 
