@@ -5,6 +5,7 @@
 enum EPlatform_State
 {
 	EPS_Missing,
+	EPS_Ready,
 	EPS_Normal,
 	EPS_Meltdown,
 	EPS_Roll_In,
@@ -18,6 +19,7 @@ public:
 
 	void Init();
 	void Act();
+	EPlatform_State Get_State();
 	void Set_State(EPlatform_State new_state);
 	void Redraw_Platform();
 	void Draw(HDC hdc, RECT& paint_area);
@@ -51,7 +53,7 @@ private:
 	static const int Circle_Size = 7;
 	static const int Normal_Platform_Inner_Width = Normal_Width - Circle_Size; // width of the platform inner part in normal state
 	static const int Meltdown_Speed = 3; // speed of the platform meltdown
-	static const int Max_Rolling_Step = 8; // max step of the platform rolling out
+	static const int Max_Rolling_Step = 16; // max step of the platform rolling out
 	static const int Roll_In_Platform_End_X_Pos = 99; // x position of the platform end in roll-in state
 	static const int Rolling_Platform_Speed = 3; // speed of the platform rolling out
 };

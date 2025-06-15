@@ -15,6 +15,14 @@ enum Ekey_Type
 	EKT_Space,
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
+enum EGame_State
+{
+	EGS_Play_Level, 
+	EGS_Lost_Ball, 
+	EGS_Restart_Level, 
+	EGS_Won 
+};
+// --------------------------------------------------------------------------------------------------------------------------------------
 const int Timer_ID = WM_USER + 1; // ID of the timer
 // --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -30,6 +38,7 @@ public:
 	int On_Timer();
 
 private:
+	EGame_State Game_State; // current game state
 	ABall Ball; // ball object
 	ALevel Level; // level object
 	AsPlatform Platform; // platform object

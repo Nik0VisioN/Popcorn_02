@@ -18,9 +18,10 @@ public:
 	ALevel();
 
 	void Init();
-	void Chech_Level_Brick_Hit(int& next_y_pos, double& ball_direction);
+	void Chech_Level_Brick_Hit(double& next_y_pos, double& ball_direction);
 	void Draw(HDC hdc, RECT& paint_area);
 
+	bool Has_Floor;
 	AActive_Brick Active_Brick;
 
 private:
