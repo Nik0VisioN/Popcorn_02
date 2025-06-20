@@ -1,6 +1,5 @@
 #include "Border.h"
 
-
 // AsBorder
 // --------------------------------------------------------------------------------------------------------------------------------------
 AsBorder::AsBorder()
@@ -31,6 +30,46 @@ void AsBorder::Draw(HDC hdc, RECT& paint_area)
    // 3. draw line on the top side
    for (i = 0; i < 50; i++)
       Draw_Element(hdc, 3 + i * 4, 0, true);
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
+{
+   bool got_hit = false;
+
+
+   // adjusting the position when reflecting the ball
+   if (next_x_pos - ball->Radius < AsConfig::Border_X_Offset)
+   {
+      got_hit = true;
+      ball->Ball_Direction = M_PI - ball->Ball_Direction;
+   }
+
+   if (next_y_pos - ball->Radius < AsConfig::Border_Y_Offset)
+   {
+      got_hit = true;
+      ball->Ball_Direction = -ball->Ball_Direction;
+   }
+
+   if (next_x_pos + ball->Radius > AsConfig::Max_X_Pos)
+   {
+      got_hit = true;
+      ball->Ball_Direction = M_PI - ball->Ball_Direction;
+   }
+
+   if (next_y_pos + ball->Radius > AsConfig::Max_Y_Pos)
+   {
+      if (AsConfig::Level_Has_Floor)
+      {
+         got_hit = true;
+         ball->Ball_Direction = -ball->Ball_Direction;
+      }
+      else
+      {
+         if (next_y_pos + ball->Radius > AsConfig::Max_Y_Pos + ball->Radius * 4)
+            ball->Set_State(EBS_Lost, next_x_pos);
+      }
+   }
+   return got_hit;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsBorder::Draw_Element(HDC hdc, int x, int y, bool top_border)

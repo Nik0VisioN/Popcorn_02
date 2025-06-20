@@ -12,6 +12,7 @@ AColor::AColor(unsigned char r, unsigned char g, unsigned char b)
 
 
 //AsConfig
+bool AsConfig::Level_Has_Floor = false; // indicates if the level has a floor (for the ball to bounce off)
 int AsConfig::Current_Timer_Tick = 0;
 
 const AColor AsConfig::Red_Brick_Color (255, 85, 255);
