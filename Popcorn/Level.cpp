@@ -26,6 +26,30 @@ ALevel::ALevel()
 {
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
+bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
+{// correct the position of the ball when it is out of bricks
+
+   int i, j;
+   int brick_y_pos = AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height;
+
+   for (i = AsConfig::Level_Height - 1; i >= 0; i--)
+   {
+      for (j = 0; j < AsConfig::Level_Width; j++)
+      {
+         if (Level_01[i][j] == 0)
+            continue;
+
+         if (next_y_pos - ball->Radius < brick_y_pos)
+         {
+            ball->Ball_Direction = -ball->Ball_Direction;
+            return true;
+         }
+      }
+      brick_y_pos -= AsConfig::Cell_Height;
+   }
+   return false;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
 void ALevel::Init()
 {
 
@@ -39,29 +63,6 @@ void ALevel::Init()
    Level_Rect.right = Level_Rect.left + AsConfig::Cell_Width * AsConfig::Level_Width * AsConfig::Global_Scale;
    Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 
-}
-// --------------------------------------------------------------------------------------------------------------------------------------
-void ALevel::Chech_Level_Brick_Hit(double& next_y_pos, double& ball_direction)
-{// correct the position of the ball when it is out of bricks
-
-   int i, j;
-   int brick_y_pos = AsConfig::Level_Y_Offset + AsConfig::Level_Height * AsConfig::Cell_Height;
-
-   for (i = AsConfig::Level_Height - 1; i >= 0; i--)
-   {
-      for (j = 0; j < AsConfig::Level_Width; j++)
-      {
-         if (Level_01[i][j] == 0)
-            continue;
-
-         if (next_y_pos < brick_y_pos)
-         {
-            next_y_pos = brick_y_pos - (next_y_pos - brick_y_pos);
-            ball_direction = -ball_direction;
-         }
-      }
-      brick_y_pos -= AsConfig::Cell_Height;
-   }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void ALevel::Draw(HDC hdc, RECT &paint_area)
@@ -152,7 +153,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, El
    if (rotation_step < 8)
       rotation_angle = 2.0 * M_PI / 16.0 * (double)rotation_step;
    else
-      rotation_angle = 2.0 * M_PI / 16.0 * (double)(8L - (long long)rotation_step);
+      rotation_angle = 2.0 * M_PI / 16.0 * (double)(8 - rotation_step);
 
    if (rotation_step > 4 && rotation_step <= 12)
    {

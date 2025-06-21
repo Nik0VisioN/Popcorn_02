@@ -40,7 +40,6 @@ public:
 	static const int Cell_Height = 8; // height of the cell
 	static const int Brick_Width = 15; // width of the brick
 	static const int Brick_Height = 7; // height of the brick
-	static const int Ball_Size = 4; // size of the ball
 	static const int Border_Y_Offset = 4;
 	static const int Max_X_Pos = Level_X_Offset + Cell_Width * Level_Width; // max X position of the ball
 	static const int Max_Y_Pos = 199; // max Y position of the ball
