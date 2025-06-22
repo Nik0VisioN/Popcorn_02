@@ -119,6 +119,33 @@ void ABall::Set_State(Eball_State new_state, double x_pos)
 	Ball_State = new_state;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
+double ABall::Get_Direction()
+{
+   return Ball_Direction;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void ABall::Set_Direction(double new_direction)
+{
+   const double pi_2 = 2.0 * M_PI;
+
+   while (new_direction > pi_2)
+      new_direction -= pi_2;
+
+   while (new_direction < 0.0)
+      new_direction += pi_2;
+
+   Ball_Direction = new_direction;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void ABall::Reflect(bool from_horizontal)
+{
+   if (from_horizontal)
+      Set_Direction(-Ball_Direction);
+   else
+      Set_Direction(M_PI - Ball_Direction);
+
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
 void ABall::Add_Hit_Checker(AHit_Checker* hit_checker)
 {
 
