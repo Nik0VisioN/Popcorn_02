@@ -57,7 +57,7 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	bool got_horizontal_hit, got_vertical_hit;
 
 
-   if(next_y_pos > AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height)
+   if(next_y_pos +ball->Radius > AsConfig::Level_Y_Offset + (AsConfig::Level_Height - 1) * AsConfig::Cell_Height + AsConfig::Brick_Height)
 		return false; // the ball is below the level, no hit
 
    direction = ball->Get_Direction();

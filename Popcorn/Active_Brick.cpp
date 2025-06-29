@@ -56,7 +56,7 @@ void AActive_Brick::Setup_Colors()
 {
    int i;
 
-   for (i = 0; i < Max_Fade_Step; ++i)
+   for (i = 0; i < Max_Fade_Step; i++)
 	{
       Get_Fading_Color(AsConfig::Red_Brick_Color, i , Fading_Red_Brick_Pens[i], Fading_Red_Brick_Brushes[i]);
       Get_Fading_Color(AsConfig::Blue_Brick_Color, i, Fading_Blue_Brick_Pens[i], Fading_Blue_Brick_Brushes[i]);
