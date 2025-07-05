@@ -40,8 +40,10 @@ char ALevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 
 // ALevel
 ALevel::ALevel()
-: Active_Brick(EBT_Red) , Letter_Pen(0), Brick_Red_Pen(0), Brick_Blue_Pen(0), Brick_Red_Brush(0), Brick_Blue_Brush(0), Level_Rect{}
+: Active_Brick(EBT_Red) , Letter_Pen(0), Brick_Red_Pen(0), Brick_Blue_Pen(0), Brick_Red_Brush(0), Brick_Blue_Brush(0), Level_Rect{}, Current_Brick_Left_X(0), Current_Brick_Right_X(0), Current_Brick_Top_Y(0), Current_Brick_Low_Y(0)
 {
+   // Initialize Current_Level to zero  
+   memset(Current_Level, 0, sizeof(Current_Level));
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
@@ -149,7 +151,7 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 
    for (i = 0; i < AsConfig::Level_Height; i++)
       for (j = 0; j < AsConfig::Level_Width; j++)
-         Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (Ebrick_Type)Current_Level[i][j]);
+         Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (EBrick_Type)Current_Level[i][j]);
 
    Active_Brick.Draw(hdc, paint_area);
 }
@@ -158,8 +160,8 @@ bool ALevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_
 {
    double direction = ball->Get_Direction();
 
-   //check the hit on the low edge of the brick
-   if (direction >= 0.0 && direction < M_PI)
+   if (ball->Is_Moving_Up())
+   {  //check the hit on the low edge of the brick
       if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Low_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
       {
          // checking the possibility of a downward rebound
@@ -168,8 +170,9 @@ bool ALevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_
          else
             return false;
       }
-   //check the hit on the top edge of the brick
-   if (direction >= M_PI && direction <= 2.0 * M_PI)
+   }
+   else
+   {  //check the hit on the top edge of the brick
       if (Hit_Circle_On_Line(next_y_pos - Current_Brick_Top_Y, next_x_pos, Current_Brick_Left_X, Current_Brick_Right_X, ball->Radius, reflection_pos))
       {
          // checking the possibility of a upward rebound
@@ -178,6 +181,7 @@ bool ALevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_
          else
             return false;
       }
+   }
    return false;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -185,8 +189,8 @@ bool ALevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int leve
 {
    double direction = ball->Get_Direction();
 
-   //check the hit on the left edge of the brick
-   if (direction >= 0.0 && direction < M_PI_2 || direction >= M_PI + M_PI_2 && direction < 2.0 * M_PI)
+   if (! ball->Is_Moving_Left())
+   {  //check the hit on the left edge of the brick
       if (Hit_Circle_On_Line(Current_Brick_Left_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
       {
          // checking the possibility of a rebound to the left
@@ -195,8 +199,9 @@ bool ALevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int leve
          else
             return false;
       }
-   //check the hit on the right edge of the brick
-   if (direction > M_PI_2 && direction < M_PI + M_PI_2)
+   }
+   else
+	{  //check the hit on the right edge of the brick
       if (Hit_Circle_On_Line(Current_Brick_Right_X - next_x_pos, next_y_pos, Current_Brick_Top_Y, Current_Brick_Low_Y, ball->Radius, reflection_pos))
       {
          // checking the possibility of a rebound to the right
@@ -205,34 +210,11 @@ bool ALevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int leve
          else
             return false;
       }
+   }
    return false;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-bool ALevel::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double &x)
-{ // Checks the intersection of a horizontal line segment (running from left_x to right_x via y) with a circle of radius "radius"
-
-   double min_x, max_x;
-
-   // x * x + y * y = R * R
-   // x = sqrt(R * R - y * y)
-   // y = sqrt(R * R - x * x)
-
-
-   if (y > radius)
-      return false; // the ball is above the brick
-
-   x = sqrt(radius * radius - y * y);
-
-   max_x = next_x_pos + x;
-   min_x = next_x_pos - x;
-
-   if (max_x >= left_x && max_x <= right_x || min_x >= left_x && min_x <= right_x)
-      return true;
-   else
-      return false;
-}
-// --------------------------------------------------------------------------------------------------------------------------------------
-void ALevel::Draw_Brick(HDC hdc, int x, int y, Ebrick_Type brick_type)
+void ALevel::Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
 {// drawer brick
 
    HPEN pen;
@@ -285,7 +267,7 @@ void ALevel::Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRU
 
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, Eletter_Type letter_type, int rotation_step)
+void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step)
 {  // drawer brick with letter
    bool switch_color;
    double offset;
@@ -336,7 +318,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, El
       SelectObject(hdc, front_pen);
       SelectObject(hdc, front_brush);
 
-      Rectangle(hdc, x, y + brick_half_height, x + AsConfig::Brick_Width * AsConfig::Global_Scale, y + brick_half_height + AsConfig::Global_Scale);
+      Rectangle(hdc, x, y + brick_half_height, x + AsConfig::Brick_Width * AsConfig::Global_Scale, y + brick_half_height + AsConfig::Global_Scale - 1);
    }
    else
    {
@@ -359,7 +341,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, El
 
       offset = 3.0 * (1.0 - fabs(xform.eM22)) * (double)AsConfig::Global_Scale;
       back_part_offset = (int)round(offset);
-      Rectangle(hdc, 0, -brick_half_height - back_part_offset, AsConfig::Brick_Width * AsConfig::Global_Scale, brick_half_height - (int)round(offset));
+      Rectangle(hdc, 0, -brick_half_height - back_part_offset, AsConfig::Brick_Width * AsConfig::Global_Scale, brick_half_height - back_part_offset);
 
       // draw the front part
       SelectObject(hdc, front_pen);
@@ -369,7 +351,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, El
 
       if (rotation_step > 4 && rotation_step < 12)
       {
-         if (letter_type == ELT_0)
+         if (letter_type == ELT_O)
          {
             SelectObject(hdc, Letter_Pen);
             Ellipse(hdc, 0 + 5 * AsConfig::Global_Scale, (-5 * AsConfig::Global_Scale) / 2, 0 + 10 * AsConfig::Global_Scale, 5 * AsConfig::Global_Scale / 2);

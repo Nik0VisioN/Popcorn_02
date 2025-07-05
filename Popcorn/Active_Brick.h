@@ -3,7 +3,7 @@
 #include "Config.h"
 
 // --------------------------------------------------------------------------------------------------------------------------------------
-enum Ebrick_Type
+enum EBrick_Type
 {
 	EBT_None,
 	EBT_Red,
@@ -13,7 +13,7 @@ enum Ebrick_Type
 class AActive_Brick
 {
 public:
-	AActive_Brick(Ebrick_Type brick_type);
+	AActive_Brick(EBrick_Type brick_type);
 
 	void Act();
 	void Draw(HDC hdc, RECT& paint_area);
@@ -23,7 +23,7 @@ public:
 private:
 
 	RECT Brick_Rect;
-	Ebrick_Type Brick_Type;
+	EBrick_Type Brick_Type;
 	int Fade_Step;
 
 	static unsigned char Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step);

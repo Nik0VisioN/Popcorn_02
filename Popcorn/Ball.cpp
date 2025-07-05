@@ -1,5 +1,33 @@
 #include "Ball.h"
 
+// --------------------------------------------------------------------------------------------------------------------------------------
+bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double& x)
+{ // Checks the intersection of a horizontal line segment (running from left_x to right_x via y) with a circle of radius "radius"
+
+   double min_x, max_x;
+
+   // x * x + y * y = R * R
+   // x = sqrt(R * R - y * y)
+   // y = sqrt(R * R - x * x)
+
+
+   if (y > radius)
+      return false; // the ball is above the brick
+
+   x = sqrt(radius * radius - y * y);
+
+   max_x = next_x_pos + x;
+   min_x = next_x_pos - x;
+
+   if (max_x >= left_x && max_x <= right_x || min_x >= left_x && min_x <= right_x)
+      return true;
+   else
+      return false;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 //ABall
 const double ABall::Start_Ball_Y_Pos = 181.0; // initial Y position of the ball
 const double ABall::Radius = 2.0; // radius of the ball
@@ -65,9 +93,8 @@ void ABall::Move()
       next_y_pos = Center_Y_Pos - step_size * sin(Ball_Direction);
 
       // correct the position of the ball
-
       for (i = 0; i < Hit_Checkers_Count; i++)
-			got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this); // check for collisions with hit checkers
+			got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);
 
       if (! got_hit)
       {
@@ -113,12 +140,12 @@ bool ABall::Is_Test_Finished()
    		return false;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-Eball_State ABall::Get_State()
+EBall_State ABall::Get_State()
 {
 	return Ball_State;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-void ABall::Set_State(Eball_State new_state, double x_pos, double y_pos)
+void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 {
 	switch (new_state)
 	{
@@ -175,6 +202,22 @@ void ABall::Reflect(bool from_horizontal)
    else
       Set_Direction(M_PI - Ball_Direction);
 
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Moving_Up()
+{
+   if (Ball_Direction >= 0.0 && Ball_Direction < M_PI)
+      return true; // the ball is moving up
+   else
+		return false; // the ball is moving down
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Moving_Left()
+{
+   if (Ball_Direction > M_PI_2 && Ball_Direction < M_PI + M_PI_2)
+      return true; // the ball is moving left
+   else
+      return false; // the ball is moving right
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void ABall::Add_Hit_Checker(AHit_Checker* hit_checker)

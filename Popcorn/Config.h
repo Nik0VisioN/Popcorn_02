@@ -31,7 +31,8 @@ public:
 	static HWND Hwnd;
 
 	static const int Global_Scale = 3; // scale of the game
-	static const int Border_X_Offset = 8;
+	static const int Border_X_Offset = 6;
+	static const int Border_Y_Offset = 4;
 	static const int Level_Width = 12; // width of the level
 	static const int Level_Height = 14; // height of the level
 	static const int Level_X_Offset = 8; // offset of the level
@@ -40,7 +41,6 @@ public:
 	static const int Cell_Height = 8; // height of the cell
 	static const int Brick_Width = 15; // width of the brick
 	static const int Brick_Height = 7; // height of the brick
-	static const int Border_Y_Offset = 4;
 	static const int Max_X_Pos = Level_X_Offset + Cell_Width * Level_Width; // max X position of the ball
 	static const int Max_Y_Pos = 199; // max Y position of the ball
 	static const int Platform_Y_Pos = 185; // Y position of the platform

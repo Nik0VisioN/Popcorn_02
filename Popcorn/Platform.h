@@ -54,7 +54,7 @@ private:
 	static const int Height = 7; // height of the platform
 	static const int Circle_Size = 7;
 	static const int Normal_Platform_Inner_Width = Normal_Width - Circle_Size; // width of the platform inner part in normal state
-	static const int Meltdown_Speed = 6; // speed of the platform meltdown
+	static const int Meltdown_Speed = 3; // speed of the platform meltdown
 	static const int Max_Rolling_Step = 16; // max step of the platform rolling out
 	static const int Roll_In_Platform_End_X_Pos = 99; // x position of the platform end in roll-in state
 	static const int Rolling_Platform_Speed = 3; // speed of the platform rolling out

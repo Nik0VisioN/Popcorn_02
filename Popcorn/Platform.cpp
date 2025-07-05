@@ -14,6 +14,7 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	double inner_left_x;
 	double inner_right_x;
    double inner_top_y;
+   double inner_low_y;
 	double reflection_pos;
 
    if (next_y_pos + ball->Radius < AsConfig::Platform_Y_Pos)
@@ -22,27 +23,26 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
    inner_left_x = (double)(X_Pos + Circle_Size - 1);
    inner_right_x = (double)(X_Pos + Width - (Circle_Size - 1));
    inner_top_y = (double)(AsConfig::Platform_Y_Pos - 1);
+   inner_low_y = (double)(AsConfig::Platform_Y_Pos + Width - 1);
 
    if (ball->Is_Moving_Up())
    {
-    // Check the reflection from the bottom edge of the platform
-
-   }
-   else
-   {
-    // Check the reflection from the top edge of the platform
+   // Check the reflection from the bottom edge of the platform
       if (Hit_Circle_On_Line(next_y_pos - inner_top_y, next_x_pos, inner_left_x, inner_right_x, ball->Radius, reflection_pos))
       {
          ball->Reflect(true);
          return true;
       }
    }
-
-      //if (next_x_pos + ball->Radius >= X_Pos && next_x_pos - ball->Radius <= X_Pos + Width)
-      //{
-      //   ball->Reflect(true);
-      //   return true;
-      //}
+   else
+   {
+   // the top edge of the platform
+      if (Hit_Circle_On_Line(next_y_pos - inner_top_y, next_x_pos, inner_left_x, inner_right_x, ball->Radius, reflection_pos))
+      {
+         ball->Reflect(true);
+         return true;
+      }
+   }
 	return false;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------

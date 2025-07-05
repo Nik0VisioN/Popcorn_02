@@ -7,7 +7,7 @@ HPEN AActive_Brick::Fading_Blue_Brick_Pens[Max_Fade_Step];
 HBRUSH AActive_Brick::Fading_Blue_Brick_Brushes[Max_Fade_Step];
 
 // --------------------------------------------------------------------------------------------------------------------------------------
-AActive_Brick::AActive_Brick(Ebrick_Type brick_type)
+AActive_Brick::AActive_Brick(EBrick_Type brick_type)
 	: Fade_Step(0), Brick_Type(brick_type), Brick_Rect{}
 {
 }

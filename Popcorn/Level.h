@@ -4,11 +4,11 @@
 #include "Ball.h"
 
 // --------------------------------------------------------------------------------------------------------------------------------------
-enum Eletter_Type
+enum ELetter_Type
 {
 	ELT_None,
 
-	ELT_0,
+	ELT_O,
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 class ALevel: public AHit_Checker
@@ -31,11 +31,10 @@ public:
 private:
 	bool Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos);
 	bool Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos);
-	bool Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double &x);
 
-	void Draw_Brick(HDC hdc, int x, int y, Ebrick_Type brick_type);
+	void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type);
 	void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush);
-	void Draw_Brick_Letter(HDC hdc, int x, int y, Ebrick_Type brick_type, Eletter_Type letter_type, int rotation_step);
+	void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step);
 
 	HPEN  Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen;
 	HBRUSH Brick_Red_Brush, Brick_Blue_Brush;

@@ -1,8 +1,7 @@
 // Popcorn.cpp : Defines the entry point for the application.
 //
-
+#include <sal.h> // Include the SAL header for annotations  
 #include "framework.h"
-//#include "Resource.h" // ?
 #include "Main.h"
 
 #define MAX_LOADSTRING 100
@@ -14,44 +13,45 @@ WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 // --------------------------------------------------------------------------------------------------------------------------------------
 
-// Forward declarations of functions included in this code module:;
+// Forward declarations of functions included in this code module:
 ATOM MyRegisterClass(HINSTANCE hInstance);
 BOOL InitInstance(HINSTANCE, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK About(HWND, UINT, WPARAM, LPARAM);
+
 // --------------------------------------------------------------------------------------------------------------------------------------
-int APIENTRY wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
-{
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
+int APIENTRY _In_ wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)  
+{  
+    UNREFERENCED_PARAMETER(hPrevInstance);  
+    UNREFERENCED_PARAMETER(lpCmdLine);  
 
-	// TODO: Place code here.
-	AsConfig::Setup_Colors();
+    // TODO: Place code here.  
+    AsConfig::Setup_Colors();  
 
-	// Initialize global strings
-	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadStringW(hInstance, IDC_POPCORN, szWindowClass, MAX_LOADSTRING);
-	MyRegisterClass(hInstance);
+    // Initialize global strings  
+    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);  
+    LoadStringW(hInstance, IDC_POPCORN, szWindowClass, MAX_LOADSTRING);  
+    MyRegisterClass(hInstance);  
 
-	// Perform application initialization:
-	if (!InitInstance(hInstance, nCmdShow))
-		return FALSE;
+    // Perform application initialization:  
+    if (!InitInstance(hInstance, nCmdShow))  
+        return FALSE;  
 
-	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_POPCORN));
+    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_POPCORN));  
 
-	MSG msg;
+    MSG msg;  
 
-	// Main message loop:
-	while (GetMessage(&msg, nullptr, 0, 0))
-	{
-		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
+    // Main message loop:  
+    while (GetMessage(&msg, nullptr, 0, 0))  
+    {  
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))  
+        {  
+            TranslateMessage(&msg);  
+            DispatchMessage(&msg);  
+        }  
+    }  
 
-	return (int)msg.wParam;
+    return (int)msg.wParam;  
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -108,7 +108,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	AdjustWindowRect(&window_rect, WS_OVERLAPPEDWINDOW, TRUE);
 
-	HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, 0, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, 0, 0, 0, hInstance);
+	HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, 0, 0, window_rect.right - window_rect.left, window_rect.bottom - window_rect.top, 0, 0, hInstance, 0);
 
 	if (hWnd == 0)
 		return FALSE;
