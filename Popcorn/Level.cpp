@@ -56,6 +56,7 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
    double min_ball_x, max_ball_x;
    double min_ball_y, max_ball_y;
 	double horizontal_reflection_pos, vertical_reflection_pos;
+
 	bool got_horizontal_hit, got_vertical_hit;
 
 
@@ -84,7 +85,7 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
          if (Current_Level[i][j] == 0)
             continue;
 
-         Current_Brick_Left_X = j * AsConfig::Cell_Width + AsConfig::Level_X_Offset;
+         Current_Brick_Left_X = AsConfig::Level_X_Offset + j * AsConfig::Cell_Width;
          Current_Brick_Right_X = Current_Brick_Left_X + AsConfig::Brick_Width;
 
          got_horizontal_hit = Check_Horizontal_Hit(next_x_pos, next_y_pos, j, i, ball, horizontal_reflection_pos);

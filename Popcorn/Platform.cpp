@@ -28,7 +28,7 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
    if (ball->Is_Moving_Up())
    {
    // Check the reflection from the bottom edge of the platform
-      if (Hit_Circle_On_Line(next_y_pos - inner_top_y, next_x_pos, inner_left_x, inner_right_x, ball->Radius, reflection_pos))
+      if (Hit_Circle_On_Line(next_y_pos - inner_low_y, next_x_pos, inner_left_x, inner_right_x, ball->Radius, reflection_pos))
       {
          ball->Reflect(true);
          return true;
