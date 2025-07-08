@@ -11,10 +11,11 @@ AsPlatform::AsPlatform()
 // --------------------------------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 {
-	double inner_left_x;
-	double inner_right_x;
-   double inner_top_y;
-   double inner_low_y;
+	double dx, dy;
+   double platform_ball_x, platform_ball_y, platform_ball_radius;
+	double distance, two_radiuses;
+	double inner_left_x, inner_right_x;
+   double inner_top_y, inner_low_y;
 	double reflection_pos;
 
    if (next_y_pos + ball->Radius < AsConfig::Platform_Y_Pos)
@@ -24,6 +25,25 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
    inner_right_x = (double)(X_Pos + Width - (Circle_Size - 1));
    inner_top_y = (double)(AsConfig::Platform_Y_Pos - 1);
    inner_low_y = (double)(AsConfig::Platform_Y_Pos + Width - 1);
+
+	platform_ball_radius = (double)Circle_Size / 2.0;
+   platform_ball_x = (double)X_Pos + platform_ball_radius;
+	platform_ball_y = (double)AsConfig::Platform_Y_Pos + platform_ball_radius;
+
+	// Check the reflection with the left and right edges of the platform
+	// Check the left edge of the platform
+	dx = platform_ball_x - next_x_pos;
+	dy = platform_ball_y - next_y_pos;
+
+	distance = sqrt(dx * dx + dy * dy);
+	two_radiuses = platform_ball_radius + ball->Radius;
+
+   if( fabs(distance - two_radiuses) < AsConfig::Moving_Step_Size)
+   {// The ball is touching the left edge of the platform
+
+   
+   }
+
 
    if (ball->Is_Moving_Up())
    {

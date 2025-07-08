@@ -22,6 +22,9 @@ const AColor AsConfig::BG_Color(15, 73, 31);
 HPEN AsConfig::BG_Pen;
 HBRUSH AsConfig::BG_Brush;
 HWND AsConfig::Hwnd;
+
+const double AsConfig::Moving_Step_Size = 1.0 / AsConfig::Global_Scale;
+
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsConfig::Setup_Colors()
 {
