@@ -30,7 +30,7 @@ bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x
 
 //ABall
 const double ABall::Start_Ball_Y_Pos = 181.0; // initial Y position of the ball
-const double ABall::Radius = 2.0; // radius of the ball
+const double ABall::Radius = 2.0 - 0.5 / AsConfig::Global_Scale; // radius of the ball
 int ABall::Hit_Checkers_Count = 0;
 AHit_Checker *ABall::Hit_Checkers[] = {};
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
       SelectObject(hdc, AsConfig::BG_Pen);
       SelectObject(hdc, AsConfig::BG_Brush);
 
-      Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
+      Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right, Prev_Ball_Rect.bottom);
    }
 
    if (Ball_State == EBS_Lost)
@@ -68,7 +68,7 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
       SelectObject(hdc, Ball_Pen);
       SelectObject(hdc, Ball_Brush);
 
-      Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
+      Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right, Ball_Rect.bottom);
    }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -115,8 +115,8 @@ void ABall::Set_For_Test()
 	Testing_Is_Active = true;
    Rest_Test_Distance = 50.0;
 
-	Set_State(EBS_Normal, 150.0 + Test_Iteration, 100.0);
-	Ball_Direction = M_PI - M_PI_4; 
+	Set_State(EBS_Normal, 80.0 + Test_Iteration, 194.0);
+	Ball_Direction = M_PI_4; 
 
 	++Test_Iteration;
 }
