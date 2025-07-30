@@ -47,5 +47,7 @@ public:
 	static const int Max_Y_Pos = 199; // max Y position of the ball
 	static const int Platform_Y_Pos = 185; // Y position of the platform
 	static const int FPS = 20;
+	static const int Max_Active_Bricks_Count = 10; // max count of active bricks
+
 };
 // --------------------------------------------------------------------------------------------------------------------------------------

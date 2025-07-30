@@ -6,17 +6,27 @@
 enum EBrick_Type
 {
 	EBT_None,
+
 	EBT_Red,
 	EBT_Blue,
+	EBT_Unbreakable,
+	EBT_Multihit_1,
+	EBT_Multihit_2,
+	EBT_Multihit_3,
+	EBT_Multihit_4,
+	EBT_Parashute,
+	EBT_Teleport,
+	EBT_Ad
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 class AActive_Brick
 {
 public:
-	AActive_Brick(EBrick_Type brick_type);
+	AActive_Brick(EBrick_Type brick_type, int level_x, int level_y);
 
 	void Act();
 	void Draw(HDC hdc, RECT& paint_area);
+	bool Is_Finished();
 	
 	static void Setup_Colors();
 
