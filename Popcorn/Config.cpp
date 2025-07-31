@@ -22,13 +22,19 @@ const AColor AsConfig::BG_Color(15, 73, 31);
 HPEN AsConfig::BG_Pen;
 HBRUSH AsConfig::BG_Brush;
 HWND AsConfig::Hwnd;
+HPEN  AsConfig::Letter_Pen, AsConfig::Brick_Red_Pen, AsConfig::Brick_Blue_Pen;
+HBRUSH AsConfig::Brick_Red_Brush, AsConfig::Brick_Blue_Brush;
 
 const double AsConfig::Moving_Step_Size = 1.0 / AsConfig::Global_Scale;
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsConfig::Setup_Colors()
 {
+   AsConfig::Letter_Pen = CreatePen(PS_SOLID, AsConfig::Global_Scale, RGB(255, 255, 255));
+
    AsConfig::Create_Pen_Brush(AsConfig::BG_Color, BG_Pen, BG_Brush);
+   AsConfig::Create_Pen_Brush(AsConfig::Red_Brick_Color, AsConfig::Brick_Red_Pen, AsConfig::Brick_Red_Brush);
+   AsConfig::Create_Pen_Brush(AsConfig::Blue_Brick_Color, AsConfig::Brick_Blue_Pen, AsConfig::Brick_Blue_Brush);
 
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
