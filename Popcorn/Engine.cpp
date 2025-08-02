@@ -40,7 +40,9 @@ void AsEngine::Init_Engine(HWND hwnd)
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 { // drawer screen game
 
-      Level.Draw(hdc, paint_area);
+   SetGraphicsMode(hdc, GM_ADVANCED);
+
+   Level.Draw(hdc, paint_area);
 
    /* int i;
 
@@ -134,8 +136,7 @@ int AsEngine::On_Timer()
 	   	break;
    }
    Platform.Act();
-
-   //Level.Active_Brick.Act();
+   Level.Act();
 
    //if(AsConfig::Current_Timer_Tick % 10 == 0)
 

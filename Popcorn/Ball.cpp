@@ -56,7 +56,7 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
       SelectObject(hdc, AsConfig::BG_Pen);
       SelectObject(hdc, AsConfig::BG_Brush);
 
-      Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right, Prev_Ball_Rect.bottom);
+      Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
    }
 
    if (Ball_State == EBS_Lost)
@@ -68,7 +68,7 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
       SelectObject(hdc, Ball_Pen);
       SelectObject(hdc, Ball_Brush);
 
-      Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right, Ball_Rect.bottom);
+      Ellipse(hdc, Ball_Rect.left, Ball_Rect.top, Ball_Rect.right - 1, Ball_Rect.bottom - 1);
    }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
