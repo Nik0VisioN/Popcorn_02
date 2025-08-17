@@ -172,7 +172,7 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
    int x = X_Pos;
    int y = AsConfig::Platform_Y_Pos;
 
-   // CLEARING PREVIOUS SPACE WITH BACKGROUND
+   // CLEANING PREVIOUS SPACE WITH BACKGROUND
 	Clear_BG(hdc);
 
    // draw the side balls

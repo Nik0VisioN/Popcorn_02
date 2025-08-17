@@ -40,21 +40,38 @@ void AsEngine::Init_Engine(HWND hwnd)
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 { // drawer screen game
 
+   //int i;
+   //COLORREF pixel;
+
    SetGraphicsMode(hdc, GM_ADVANCED);
 
-   Level.Draw(hdc, paint_area);
-
-   /* int i;
-
-    for (i = 0; i < 16; i++)
-    {
-       Draw_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 100, EBT_Blue, ELT_O, i);
-       Draw_Brick_Letter(hdc, 20 + i * Cell_Width * Global_Scale, 130, EBT_Red, ELT_O, i);
-    }*/
-   
+   Level.Draw(hdc, paint_area);   
    Border.Draw(hdc, paint_area);
    Platform.Draw(hdc, paint_area);
    Ball.Draw(hdc, paint_area);
+
+ //  for (i = 0; i < 84 * 21 * 100; i++ )
+ //  {
+ //     pixel = GetPixel(hdc, 100, 100);
+ //     SetPixel(hdc, 100, 100, pixel);
+	//}
+
+ /*  for (i = 0; i < 84 ; i++)
+   {
+		MoveToEx(hdc, 100, 555, 0);
+
+		SelectObject(hdc, AsConfig::BG_Pen);
+		LineTo(hdc, 100, 557);
+
+      SelectObject(hdc, AsConfig::Brick_Blue_Pen);
+      LineTo(hdc, 100, 572);
+
+      SelectObject(hdc, AsConfig::BG_Pen);
+      LineTo(hdc, 100, 575);
+
+   }*/
+
+	//int yy = 0;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key_Down(EKey_Type key_type)
