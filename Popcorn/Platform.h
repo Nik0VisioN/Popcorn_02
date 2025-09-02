@@ -15,6 +15,7 @@ enum EPlatform_State
 class AsPlatform: public AHit_Checker
 {
 public:
+	~AsPlatform();
 	AsPlatform();
 
 	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall* ball);
@@ -42,6 +43,9 @@ private:
 	EPlatform_State Platform_State;
 	int Inner_Width;
 	int Rolling_Step; // step of the platform rolling out
+
+	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
+	int* Normal_Platform_Image; // pointer to the image of the normal platform
 
 	static const int Normal_Width = 28; // width of the platform
 

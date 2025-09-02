@@ -2,9 +2,16 @@
 
 // AsPlatform
 // --------------------------------------------------------------------------------------------------------------------------------------
+AsPlatform::~AsPlatform()
+{
+	delete[] Normal_Platform_Image;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Platform_State(EPS_Normal), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step(0), Meltdown_Platform_Y_Pos{},
-  Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0), Platform_Circle_Pen(0), Platform_Inner_Pen(0), Platform_Circle_Brush(0), Platform_Inner_Brush(0)
+: X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Platform_State(EPS_Normal), Inner_Width(Normal_Platform_Inner_Width), Rolling_Step(0),
+  Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0), Normal_Platform_Image(0),
+  Meltdown_Platform_Y_Pos{}, Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0), Platform_Circle_Pen(0), Platform_Inner_Pen(0), 
+  Platform_Circle_Brush(0), Platform_Inner_Brush(0)
 {
    X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
 }
@@ -168,7 +175,9 @@ void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 { // drawer platform in normal state
-
+   
+	int i, j;
+	int offset = 0;
    int x = X_Pos;
    int y = AsConfig::Platform_Y_Pos;
 
@@ -192,6 +201,17 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 
    RoundRect(hdc, (x + 4) * AsConfig::Global_Scale, (y + 1) * AsConfig::Global_Scale, (x + 4 + Inner_Width - 1) * AsConfig::Global_Scale - 1, (y + 1 + 5) * AsConfig::Global_Scale - 1, 3 * AsConfig::Global_Scale, 3 * AsConfig::Global_Scale);
 
+   if(Normal_Platform_Image == 0)
+   {
+		Normal_Platform_Image_Width = Width * AsConfig::Global_Scale;
+		Normal_Platform_Image_Height = Height * AsConfig::Global_Scale;
+
+      Normal_Platform_Image = new int[Normal_Platform_Image_Width * Normal_Platform_Image_Height]; 
+
+      for (i = 0; i < Normal_Platform_Image_Height; i++);
+         for (j = 0; j < Normal_Platform_Image_Width; j++);
+            Normal_Platform_Image[offset++] = GetPixel(hdc, x + j, y + i);
+	}
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
