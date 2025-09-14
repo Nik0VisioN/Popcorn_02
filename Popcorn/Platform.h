@@ -26,6 +26,7 @@ public:
 	void Set_State(EPlatform_State new_state);
 	void Redraw_Platform();
 	void Draw(HDC hdc, RECT& paint_area);
+	void Move(bool to_left);
 
 	int X_Pos;
 	int Width;

@@ -64,10 +64,12 @@ void AsPlatform::Init()
 void AsPlatform::Act()
 {
    switch(Platform_State)
+   {
       case EPS_Meltdown:
       case EPS_Roll_In:
 		case EPS_Expand_Roll_In:
       Redraw_Platform();
+   }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 EPlatform_State AsPlatform::Get_State()
@@ -103,9 +105,8 @@ void AsPlatform::Set_State(EPlatform_State new_state)
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsPlatform::Redraw_Platform()
 {
+   int platform_width;
    Prev_Platform_Rect = Platform_Rect;
-
-	int platform_width;
 
    if (Platform_State == EPS_Roll_In)
       platform_width = Circle_Size;
@@ -151,6 +152,28 @@ void AsPlatform::Draw(HDC hdc, RECT &paint_area)
    case EPS_Expand_Roll_In:
       Draw_Expanding_Roll_In_State(hdc, paint_area);
       break;
+   }
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void AsPlatform::Move(bool to_left)
+{
+   if (to_left)
+   {
+   X_Pos -= X_Step;
+
+   if (X_Pos <= AsConfig::Border_X_Offset)
+      X_Pos = AsConfig::Border_X_Offset;
+
+   Redraw_Platform();
+   }
+   else
+   {
+      X_Pos += X_Step;
+
+      if (X_Pos >= AsConfig::Max_X_Pos - Width + 1)
+         X_Pos = AsConfig::Max_X_Pos - Width + 1;
+
+      Redraw_Platform();
    }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -212,8 +235,8 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 
       Normal_Platform_Image = new int[Normal_Platform_Image_Width * Normal_Platform_Image_Height]; 
 
-      for (i = 0; i < Normal_Platform_Image_Height; i++);
-         for (j = 0; j < Normal_Platform_Image_Width; j++);
+      for (i = 0; i < Normal_Platform_Image_Height; i++)
+         for (j = 0; j < Normal_Platform_Image_Width; j++)
             Normal_Platform_Image[offset++] = GetPixel(hdc, x + j, y + i);
 	}
 }
@@ -228,7 +251,6 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
    int moved_columns_count = 0;
    int max_platform_y;
    HPEN color_pen;
-	//COLORREF pixel;
    COLORREF bg_pixel = RGB (AsConfig::BG_Color.R, AsConfig::BG_Color.G, AsConfig::BG_Color.B);
     
 	max_platform_y = (AsConfig::Max_Y_Pos + 1) * AsConfig::Global_Scale;
@@ -408,7 +430,7 @@ bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, HPEN& color_pen, 
       }
       else
       {
-         if (color = Normal_Platform_Image[offset])
+         if (color == Normal_Platform_Image[offset])
             ++stroke_len;
          else
             break;
@@ -417,13 +439,13 @@ bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, HPEN& color_pen, 
       offset += Normal_Platform_Image_Width; //Go to the line below
    }
 
-   if (color = Highlight_Pen_Color.Get_RGB())
+   if (color == Highlight_Pen_Color.Get_RGB())
       color_pen = Highlight_Pen;
-   else if (color = Platform_Circle_Pen_Color.Get_RGB())
+   else if (color == Platform_Circle_Pen_Color.Get_RGB())
       color_pen = Platform_Circle_Pen;
-   else if (color = Platform_Inner_Pen_Color.Get_RGB())
+   else if (color == Platform_Inner_Pen_Color.Get_RGB())
       color_pen = Platform_Inner_Pen;
-   else if (color = AsConfig::BG_Color.Get_RGB())
+   else if (color == AsConfig::BG_Color.Get_RGB())
       color_pen = AsConfig::BG_Pen;
    else
       color_pen = 0;

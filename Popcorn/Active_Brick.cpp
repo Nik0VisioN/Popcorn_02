@@ -27,7 +27,6 @@ void AActive_Brick::Act()
    }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-
 void AActive_Brick::Draw(HDC hdc, RECT& paint_area)
 {
    HPEN pen = 0;
@@ -37,20 +36,20 @@ void AActive_Brick::Draw(HDC hdc, RECT& paint_area)
    {
    case EBT_Red:
       pen = Fading_Red_Brick_Pens[Fade_Step];
-		brush = Fading_Red_Brick_Brushes[Fade_Step];
-		break;
+      brush = Fading_Red_Brick_Brushes[Fade_Step];
+      break;
 
-	case EBT_Blue:
-		pen = Fading_Blue_Brick_Pens[Fade_Step];
-		brush = Fading_Blue_Brick_Brushes[Fade_Step];
-		break;
+   case EBT_Blue:
+      pen = Fading_Blue_Brick_Pens[Fade_Step];
+      brush = Fading_Blue_Brick_Brushes[Fade_Step];
+      break;
    }
 
 
    SelectObject(hdc, pen);
    SelectObject(hdc, brush);
 
-   RoundRect(hdc, Brick_Rect.left, Brick_Rect.top, Brick_Rect.right, Brick_Rect.bottom, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
+   RoundRect(hdc, Brick_Rect.left, Brick_Rect.top, Brick_Rect.right - 1 , Brick_Rect.bottom - 1, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 bool AActive_Brick::Is_Finished()
