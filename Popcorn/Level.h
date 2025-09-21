@@ -4,11 +4,11 @@
 #include "Ball.h"
 
 // --------------------------------------------------------------------------------------------------------------------------------------
-class ALevel: public AHit_Checker
+class AsLevel: public AHit_Checker
 {
 public:
 
-	ALevel();
+	AsLevel();
 
 	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall* ball);
 
@@ -16,6 +16,7 @@ public:
 	void Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Level_Width]);
 	void Act();
 	void Draw(HDC hdc, RECT& paint_area);
+	bool Get_Next_Falling_Letter(int &index, AFalling_Letter **falling_letter);
 
 	AActive_Brick Active_Brick;
 

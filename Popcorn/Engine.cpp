@@ -33,7 +33,7 @@ void AsEngine::Init_Engine(HWND hwnd)
    ABall::Add_Hit_Checker(&Level);
    ABall::Add_Hit_Checker(&Platform);
 
-	Level.Set_Current_Level(ALevel::Level_01);
+	Level.Set_Current_Level(AsLevel::Level_01);
 
    Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
 
@@ -97,7 +97,7 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 
 
    case EKT_Space:
-      if(Platform.Get_State() == EPS_Ready)
+      if (Platform.Get_State() == EPS_Ready)
       {
          Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
          Platform.Set_State(EPS_Normal);
@@ -134,7 +134,7 @@ int AsEngine::On_Timer()
 
 
 	   case EGS_Lost_Ball:
-         if(Platform.Get_State() == EPS_Missing)
+         if (Platform.Get_State() == EPS_Missing)
          {
             Game_State = EGS_Restart_Level;
 				Platform.Set_State(EPS_Roll_In);
@@ -150,11 +150,29 @@ int AsEngine::On_Timer()
          }
 	   	break;
    }
+   Act();
+
+   return 0; 
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void AsEngine::Act()
+{
+   int index = 0;
+	AFalling_Letter *falling_letter;
+
    Platform.Act();
    Level.Act();
 
-   //if(AsConfig::Current_Timer_Tick % 10 == 0)
+   while (Level.Get_Next_Falling_Letter(index, &falling_letter) )
+   {
+      if (Platform.Hit_By(falling_letter) )
+         On_Falling_Letter(falling_letter);
+	}
 
-   return 0; 
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void AsEngine::On_Falling_Letter(AFalling_Letter *falling_letter)
+{
+	falling_letter->Finalize();
 }
 // --------------------------------------------------------------------------------------------------------------------------------------

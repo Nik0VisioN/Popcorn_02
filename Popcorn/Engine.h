@@ -38,11 +38,12 @@ public:
 	void Draw_Frame(HDC hdc, RECT &paint_area);
 	int On_Key_Down(EKey_Type key_type);
 	int On_Timer();
-
 private:
+	void Act();
+	void On_Falling_Letter(AFalling_Letter *falling_letter);
 	EGame_State Game_State; // current game state
 	ABall Ball; // ball object
-	ALevel Level; // level object
+	AsLevel Level; // level object
 	AsPlatform Platform; // platform object
 	AsBorder Border; // border object
 };
