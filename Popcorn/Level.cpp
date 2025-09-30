@@ -153,6 +153,9 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
    int i, j;
    RECT intersection_rect, brick_rect;
   
+	AFalling_Letter falling_letter(EBT_Blue, ELT_I, 8 * AsConfig::Global_Scale, 150 * AsConfig::Global_Scale);
+   falling_letter.Test_Draw_All_Steps(hdc);
+
    if (IntersectRect(&intersection_rect, &paint_area, &Level_Rect))
    {
    for (i = 0; i < AsConfig::Level_Height; i++)
@@ -247,12 +250,15 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
 	int letter_x, letter_y;
    AFalling_Letter* falling_letter;
 
-   if (brick_type == EBT_Red || brick_type == EBT_Blue)
-   {
-      if (AsConfig::Rand(AsConfig::Hits_Per_Letter) == 0)
-      {
-         if (Falling_Letters_Count < AsConfig::Max_Falling_Letters_Count)
-         {
+   if (! (brick_type == EBT_Red || brick_type == EBT_Blue) )
+		return false; // only red and blue bricks can give letters
+
+   if (AsConfig::Rand(AsConfig::Hits_Per_Letter) != 0)
+		return false; // not this time
+
+   if (Falling_Letters_Count >= AsConfig::Max_Falling_Letters_Count)
+		return false; // too many falling letters already   
+      
             for (i = 0; i < AsConfig::Max_Falling_Letters_Count; i++)
             {
                if (Falling_Letters[i] == 0) // initialize the falling letters array
@@ -263,15 +269,10 @@ bool AsLevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_typ
                   falling_letter = new AFalling_Letter(brick_type, ELT_O, letter_x, letter_y);
                   Falling_Letters[i] = falling_letter;
                   ++Falling_Letters_Count;
-                  break; // add the letter to the array
+                  return true;; // add the letter to the array
                }
             }
-
-            return true; // letter added
-         }
-      }
-   }
-   return false; // no letter added
+            return false; // letter added
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 bool AsLevel::Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos)
