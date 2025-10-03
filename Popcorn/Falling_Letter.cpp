@@ -214,29 +214,67 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
          switch (Letter_Type)
          {
          case ELT_O:
-            Ellipse(hdc, 0 + 5 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 0 + 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1);
+            Ellipse(hdc, 5 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1);
             break;
+
          case ELT_I:
             Draw_Line(hdc, 7, 1, 7, 6);
 				break;
+
          case ELT_C:
-            Arc(hdc, 0 + 5 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 0 + 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1, 
-               0 + 10 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 0 + 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1);
+            Arc(hdc, 5 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1, 
+               10 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1);
 			break;
-			//.. need to correct the letter G ..//
+
+         case ELT_M:
+            Draw_Line(hdc, 5, 6, 5, 1);
+            Draw_Line_To(hdc, 7, 3);
+            Draw_Line_To(hdc, 9, 1);
+            Draw_Line_To(hdc, 9, 6);
+            break;
+
          case ELT_G:
             // C
-            Arc(hdc, 0 + 5 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 0 + 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1,
-               0 + 10 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 0 + 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1);
+            Arc(hdc, 5 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1,
+               10 * AsConfig::Global_Scale, 1 * AsConfig::Global_Scale - Brick_Half_Height, 10 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1);
+				// middle part
+            Draw_Line(hdc, 9, 3, 7, 3);
+            Draw_Line(hdc, 9, 3, 9, 5);
+            break;
 
-				// last part
-            MoveToEx(hdc, 7 * AsConfig::Global_Scale, 3 * AsConfig::Global_Scale - Brick_Half_Height, 0);
-            LineTo(hdc, 8 * AsConfig::Global_Scale, 3 * AsConfig::Global_Scale - Brick_Half_Height);
+			case ELT_K:
+				Draw_Line(hdc, 5, 1, 5, 6);
+				Draw_Line(hdc, 9, 1, 5, 4);
+				Draw_Line(hdc, 6, 4, 9, 6);
+				break;
 
-            MoveToEx(hdc, 9 * AsConfig::Global_Scale, 3 * AsConfig::Global_Scale - Brick_Half_Height, 0);
-            LineTo(hdc, 9 * AsConfig::Global_Scale, 6 * AsConfig::Global_Scale - Brick_Half_Height - 1);
+         case ELT_W:
+            Draw_Line(hdc, 5, 1, 6, 6);
+            Draw_Line_To(hdc, 7, 3);
+            Draw_Line_To(hdc, 8, 6);
+            Draw_Line_To(hdc, 9, 1);
+				break;
 
+         case ELT_P:
+				Draw_Line(hdc, 6, 6, 6, 1);
+            Draw_Line_To(hdc, 9, 1);
+            Draw_Line_To(hdc, 9, 4);
+            Draw_Line_To(hdc, 6, 4);
+            break;
 
+         case ELT_L:
+            Draw_Line(hdc, 5, 1, 5, 6);
+            Draw_Line(hdc, 5, 6, 9, 6);
+            break;
+
+         case ELT_T:
+            Draw_Line(hdc, 5, 1, 9, 1);
+            Draw_Line(hdc, 7, 1, 7, 6);
+            break;
+
+         case ELT_Plus:
+            Draw_Line(hdc, 7, 1, 7, 5);
+            Draw_Line(hdc, 5, 3, 9, 3);
             break;
          }
       }
@@ -259,3 +297,13 @@ void AFalling_Letter::Draw_Line(HDC hdc, int x_1, int y_1, int x_2, int y_2)
    MoveToEx(hdc, x_1 * AsConfig::Global_Scale + 1, start_y, 0);
    LineTo(hdc, x_2 * AsConfig::Global_Scale + 1, end_y);
 }
+// --------------------------------------------------------------------------------------------------------------------------------------
+void AFalling_Letter::Draw_Line_To(HDC hdc, int x, int y)
+{
+   int end_y = y * AsConfig::Global_Scale - Brick_Half_Height;
+   if (y == 6)
+      --end_y;
+
+   LineTo(hdc, x * AsConfig::Global_Scale + 1, end_y);
+}
+// --------------------------------------------------------------------------------------------------------------------------------------

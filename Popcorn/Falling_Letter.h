@@ -46,6 +46,7 @@ private:
 	void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush);
 	void Draw_Brick_Letter(HDC hdc);
 	void Draw_Line(HDC hdc, int x_1, int y_1, int x_2, int y_2);
+	void Draw_Line_To(HDC hdc, int x, int y);
 
 	EFalling_Letter_State Falling_Letter_State;
 	int X, Y;
