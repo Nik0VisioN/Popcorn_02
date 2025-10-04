@@ -1,8 +1,9 @@
 #include "Falling_Letter.h"
 
 //AFalling_Letter
+int AFalling_Letter::All_Letters_Popularity;
+int AFalling_Letter::Letters_Popularity[ELT_Max] = {7, 7, 7, 7, 7, 7, 7, 3, 3, 3, 1};
 // --------------------------------------------------------------------------------------------------------------------------------------
-
 AFalling_Letter::AFalling_Letter(EBrick_Type brick_type, ELetter_Type letter_type, int x, int y)
    : Brick_Type(brick_type), Letter_Type(letter_type), Falling_Letter_State(EFLS_Normal), X(x), Y(y), Rotation_Step(2), Next_Rotation_Tick(AsConfig::Current_Timer_Tick + Ticks_Per_Step)
 {
@@ -100,6 +101,32 @@ void AFalling_Letter::Test_Draw_All_Steps(HDC hdc)
 		Letter_Cell.left += x_step;
 		Letter_Cell.right += x_step;
    }
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void AFalling_Letter::Init()
+{
+   int i;
+   All_Letters_Popularity = 0;
+
+   for ( i = 0; i < ELT_Max; i++)
+      All_Letters_Popularity += Letters_Popularity[i];
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+ELetter_Type AFalling_Letter::Get_Random_Letter_Type()
+{
+   int i;
+   int letters_popularity;
+
+	letters_popularity = AsConfig::Rand(All_Letters_Popularity);
+
+   for (i = 0; i < ELT_Max; i++)
+   {
+      if (letters_popularity < Letters_Popularity[i])
+         return (ELetter_Type)i;
+
+			letters_popularity -= Letters_Popularity[i];
+   }
+	return ELT_O; // should not happen
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AFalling_Letter::Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush)

@@ -29,6 +29,8 @@ void AsEngine::Init_Engine(HWND hwnd)
    Ball.Init();
    Border.Init();
 
+   AFalling_Letter::Init();
+
    ABall::Add_Hit_Checker(&Border);
    ABall::Add_Hit_Checker(&Level);
    ABall::Add_Hit_Checker(&Platform);

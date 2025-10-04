@@ -5,8 +5,6 @@
 // --------------------------------------------------------------------------------------------------------------------------------------
 enum ELetter_Type
 {
-	ELT_None,
-
 	ELT_O, // cancel
 	ELT_I, // inversion
 	ELT_C, // speed
@@ -14,10 +12,14 @@ enum ELetter_Type
 	ELT_G, // +helth
 	ELT_K, // glue
 	ELT_W, // wide
+	
 	ELT_P, // floor
 	ELT_L, // lazer
 	ELT_T, // three balls
-	ELT_Plus // move to the next level
+		
+	ELT_Plus, // move to the next level
+	
+	ELT_Max
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 enum EFalling_Letter_State
@@ -40,6 +42,9 @@ public:
 	void Finalize();
 	void Test_Draw_All_Steps(HDC hdc);
 
+	static void Init();
+	static ELetter_Type Get_Random_Letter_Type();
+
 	const ELetter_Type Letter_Type;
 	const EBrick_Type Brick_Type;
 private:
@@ -57,5 +62,8 @@ private:
 	static const int Ticks_Per_Step = 4; // how many ticks to wait before the next rotation step
 	static const int Max_Rotation_Steps = 16;
 	static const int Brick_Half_Height = AsConfig::Brick_Height * AsConfig::Global_Scale / 2;
+
+	static int All_Letters_Popularity; // the sum of the popularity of all letters
+	static int Letters_Popularity[ELT_Max]; // the popularity of each letter (the higher the more popular)
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
