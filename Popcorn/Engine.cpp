@@ -22,7 +22,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 
    AsConfig::Hwnd = hwnd;
 
-   AActive_Brick::Setup_Colors();
+   AActive_Brick_Red_And_Blue::Setup_Colors();
 
    Level.Init();
    Platform.Init();

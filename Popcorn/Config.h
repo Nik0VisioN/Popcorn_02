@@ -27,12 +27,12 @@ public:
 
 	static bool Level_Has_Floor;
 	static int Current_Timer_Tick;
-	static const AColor BG_Color, Red_Brick_Color, Blue_Brick_Color;
+	static const AColor BG_Color, Red_Brick_Color, Blue_Brick_Color, White_Brick_Color;
 	static HPEN BG_Pen;
 	static HBRUSH BG_Brush;
 	static HWND Hwnd;
-	static HPEN  Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen;
-	static HBRUSH Brick_Red_Brush, Brick_Blue_Brush;
+	static HPEN  Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen, Brick_White_Pen;
+	static HBRUSH Brick_Red_Brush, Brick_Blue_Brush, Brick_White_Brush;
 
 
 	static const double Moving_Step_Size;
