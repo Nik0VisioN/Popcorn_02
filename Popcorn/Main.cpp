@@ -5,13 +5,15 @@
 #include "Main.h"
 
 #define MAX_LOADSTRING 100
-
 // Global Variables:
 AsEngine Engine;
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 // --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 // Forward declarations of functions included in this code module:
 ATOM MyRegisterClass(HINSTANCE hInstance);
@@ -26,8 +28,7 @@ int APIENTRY _In_ wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevIns
     UNREFERENCED_PARAMETER(lpCmdLine);  
 
     // TODO: Place code here.  
-    AsConfig::Setup_Colors();  
-
+	 
     // Initialize global strings  
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);  
     LoadStringW(hInstance, IDC_POPCORN, szWindowClass, MAX_LOADSTRING);  
@@ -50,10 +51,12 @@ int APIENTRY _In_ wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevIns
             DispatchMessage(&msg);  
         }  
     }  
-
     return (int)msg.wParam;  
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 //
@@ -74,7 +77,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hInstance = hInstance;
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_POPCORN));
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcex.hbrBackground = AsConfig::BG_Brush;
+	wcex.hbrBackground = AsConfig::BG_Color.Brush;
 	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_POPCORN);
 	wcex.lpszClassName = szWindowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -82,7 +85,9 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	return RegisterClassExW(&wcex);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-//
+
+
+
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -120,8 +125,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	return TRUE;
 }
-
 // --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 // --------------------------------------------------------------------------------------------------------------------------------------
 //
@@ -199,6 +206,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 
+
 // --------------------------------------------------------------------------------------------------------------------------------------
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -218,5 +226,4 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return (INT_PTR)FALSE;
 }
-
 // --------------------------------------------------------------------------------------------------------------------------------------

@@ -9,31 +9,26 @@
 class AColor
 {
 public:
+	AColor();
 	AColor(unsigned char r, unsigned char g, unsigned char b);
 
 	int Get_RGB() const;
+	void Select(HDC hdc) const;
 
 	unsigned char R, G, B;
+	HPEN Pen;
+	HBRUSH Brush;
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 class AsConfig
 {
 public:
-
-	static void Setup_Colors();
-	static void Create_Pen_Brush(const AColor& color, HPEN& pen, HBRUSH& brush);
-	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN& pen, HBRUSH& brush);
 	static int Rand(int range);
 
 	static bool Level_Has_Floor;
 	static int Current_Timer_Tick;
-	static const AColor BG_Color, Red_Brick_Color, Blue_Brick_Color, White_Brick_Color;
-	static HPEN BG_Pen;
-	static HBRUSH BG_Brush;
+	static const AColor BG_Color, Purple_Color, Blue_Color, White_Color;
 	static HWND Hwnd;
-	static HPEN  Letter_Pen, Brick_Red_Pen, Brick_Blue_Pen, Brick_White_Pen;
-	static HBRUSH Brick_Red_Brush, Brick_Blue_Brush, Brick_White_Brush;
-
 
 	static const double Moving_Step_Size;
 
@@ -55,6 +50,5 @@ public:
 	static const int Max_Active_Bricks_Count = 10; // max count of active bricks
 	static const int Hits_Per_Letter = 2; // probability of hitting a letter
 	static const int Max_Falling_Letters_Count = 10; // max count of falling letters
-
 };
 // --------------------------------------------------------------------------------------------------------------------------------------

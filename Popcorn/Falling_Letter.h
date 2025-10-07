@@ -48,7 +48,7 @@ public:
 	const ELetter_Type Letter_Type;
 	const EBrick_Type Brick_Type;
 private:
-	void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush);
+	void Set_Brick_Letter_Colors(bool is_switch_color, const AColor **front_color, const AColor **back_color);
 	void Draw_Brick_Letter(HDC hdc);
 	void Draw_Line(HDC hdc, int x_1, int y_1, int x_2, int y_2);
 	void Draw_Line_To(HDC hdc, int x, int y);

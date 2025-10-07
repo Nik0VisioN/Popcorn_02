@@ -19,16 +19,11 @@ void AsEngine::Init_Engine(HWND hwnd)
 	SystemTimeToFileTime(&sys_time, &file_time);
 
    srand(file_time.dwLowDateTime);
-
    AsConfig::Hwnd = hwnd;
 
    AActive_Brick_Red_And_Blue::Setup_Colors();
 
    Level.Init();
-   Platform.Init();
-   Ball.Init();
-   Border.Init();
-
    AFalling_Letter::Init();
 
    ABall::Add_Hit_Checker(&Border);
@@ -36,14 +31,11 @@ void AsEngine::Init_Engine(HWND hwnd)
    ABall::Add_Hit_Checker(&Platform);
 
 	Level.Set_Current_Level(AsLevel::Level_01);
-
    //Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
    //Platform.Set_State(EPS_Normal);
-
    Platform.Redraw_Platform();
 
    SetTimer(AsConfig::Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
-
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)

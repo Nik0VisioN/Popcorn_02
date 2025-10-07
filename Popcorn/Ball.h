@@ -22,10 +22,8 @@ public:
 class ABall
 {
 public:
-
 	ABall();
 
-	void Init();
 	void Draw(HDC hdc, RECT& paint_area);
 	void Move();
 	void Set_For_Test();
@@ -41,23 +39,18 @@ public:
 	double Ball_Speed;
 
 	static void Add_Hit_Checker(AHit_Checker *hit_checker);
-
 	static const double Radius;
 
 private:
 	void Redraw_Ball();
 
 	EBall_State Ball_State;
-	HPEN Ball_Pen;
-	HBRUSH Ball_Brush;
-
 	double Rest_Distance;
 	double Center_X_Pos, Center_Y_Pos;
 	double Ball_Direction;
-
+	double Rest_Test_Distance;
 	bool Testing_Is_Active;
 	int Test_Iteration;
-	double Rest_Test_Distance;
 
 	RECT Ball_Rect, Prev_Ball_Rect;
 

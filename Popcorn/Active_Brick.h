@@ -62,14 +62,11 @@ private:
 	int Fade_Step;
 
 	static unsigned char Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step);
-	static void Get_Fading_Color(const AColor& color, int step, HPEN& pen, HBRUSH& brush);
+	static void Get_Fading_Color(const AColor& origin_color, int step, AColor& result_color);
 
 	static const int Max_Fade_Step = AsConfig::FPS;
-
-	static HPEN Fading_Red_Brick_Pens[Max_Fade_Step];
-	static HBRUSH Fading_Red_Brick_Brushes[Max_Fade_Step];
-	static HPEN Fading_Blue_Brick_Pens[Max_Fade_Step];
-	static HBRUSH Fading_Blue_Brick_Brushes[Max_Fade_Step];
+	static AColor Fading_Red_Brick_Colors[Max_Fade_Step];
+	static AColor Fading_Blue_Brick_Colors[Max_Fade_Step];
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 
