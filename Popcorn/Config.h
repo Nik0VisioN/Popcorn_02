@@ -11,11 +11,16 @@ class AColor
 public:
 	AColor();
 	AColor(unsigned char r, unsigned char g, unsigned char b);
+	AColor(const AColor &color, int pen_size);
 
 	int Get_RGB() const;
 	void Select(HDC hdc) const;
+	void Select_Pen(HDC hdc) const;
+	HBRUSH Get_Brush() const;
 
 	unsigned char R, G, B;
+
+private:
 	HPEN Pen;
 	HBRUSH Brush;
 };
@@ -24,6 +29,7 @@ class AsConfig
 {
 public:
 	static int Rand(int range);
+	static void Round_Rect(HDC hdc, RECT &rect, int corner_radius);
 
 	static bool Level_Has_Floor;
 	static int Current_Timer_Tick;

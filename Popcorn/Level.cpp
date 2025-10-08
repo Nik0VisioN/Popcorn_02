@@ -343,35 +343,23 @@ bool AsLevel::Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int lev
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw_Brick(HDC hdc, RECT &brick_rect, EBrick_Type brick_type)
 {// drawer brick
-
    const AColor *color = 0;
 
    switch (brick_type)
    {
    case EBT_None:
-      color = &AsConfig::BG_Color;
-      return;
-
    case EBT_Red:
-      color = &AsConfig::Purple_Color;
-      break;
-
    case EBT_Blue:
-      color = &AsConfig::Blue_Color;
+      AActive_Brick_Red_And_Blue::Draw_In_Level(hdc, brick_rect, brick_type);
       break;
 
 	case EBT_Unbreakable:
-		color = &AsConfig::White_Color;
-		break;
-
+      AActive_Brick_Unbreakable::Draw_In_Level(hdc, brick_rect);
+      break;
+   
    default:
       throw 13;
    }
-
-	if (color != 0)
-      color -> Select(hdc);
-
-   RoundRect(hdc, brick_rect.left, brick_rect.top, brick_rect.right - 1, brick_rect.bottom - 1, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int objects_max_count)
