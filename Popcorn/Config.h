@@ -30,10 +30,11 @@ class AsConfig
 public:
 	static int Rand(int range);
 	static void Round_Rect(HDC hdc, RECT &rect, int corner_radius);
+	static void Throw();
 
 	static bool Level_Has_Floor;
 	static int Current_Timer_Tick;
-	static const AColor BG_Color, Purple_Color, Blue_Color, White_Color;
+	static const AColor BG_Color, Purple_Color, Blue_Color, White_Color, Letter_Color;
 	static HWND Hwnd;
 
 	static const double Moving_Step_Size;
@@ -54,7 +55,7 @@ public:
 	static const int Platform_Y_Pos = 185; // Y position of the platform
 	static const int FPS = 20;
 	static const int Max_Active_Bricks_Count = 10; // max count of active bricks
-	static const int Hits_Per_Letter = 2; // probability of hitting a letter
+	static const int Hits_Per_Letter = 1; // probability of hitting a letter 1.0%
 	static const int Max_Falling_Letters_Count = 10; // max count of falling letters
 };
 // --------------------------------------------------------------------------------------------------------------------------------------

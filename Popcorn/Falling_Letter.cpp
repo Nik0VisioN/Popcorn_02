@@ -223,7 +223,7 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
        
       if (Rotation_Step > 4 && Rotation_Step < 12)
       {
-			AsConfig::White_Color.Select_Pen(hdc);
+			AsConfig::Letter_Color.Select_Pen(hdc);
          switch (Letter_Type)
          {
          case ELT_O:

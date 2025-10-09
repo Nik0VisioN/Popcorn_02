@@ -447,7 +447,7 @@ bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, const AColor **co
    else if (color_value == AsConfig::BG_Color.Get_RGB())
       *color = &AsConfig::BG_Color;
    else
-      throw 13;
+      AsConfig::Throw();
 
    return true;
 }

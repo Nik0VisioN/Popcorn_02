@@ -54,6 +54,7 @@ const AColor AsConfig::Purple_Color (255, 85, 255);
 const AColor AsConfig::Blue_Color(85, 255, 255);
 const AColor AsConfig::BG_Color(15, 73, 31);
 const AColor AsConfig::White_Color(255, 255, 255);
+const AColor AsConfig::Letter_Color(AsConfig::White_Color, AsConfig::Global_Scale);
 
 HWND AsConfig::Hwnd;
 const double AsConfig::Moving_Step_Size = 1.0 / AsConfig::Global_Scale;
@@ -68,5 +69,10 @@ void AsConfig::Round_Rect(HDC hdc, RECT& rect, int corner_radius)
 {
 	int radius = corner_radius * AsConfig::Global_Scale;
    RoundRect(hdc, rect.left, rect.top, rect.right - 1, rect.bottom - 1, radius, radius);
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void AsConfig::Throw()
+{
+   throw 13;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
