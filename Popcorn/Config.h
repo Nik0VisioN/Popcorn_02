@@ -12,6 +12,7 @@ public:
 	AColor();
 	AColor(unsigned char r, unsigned char g, unsigned char b);
 	AColor(const AColor &color, int pen_size);
+	AColor(const AColor& pen_color, const AColor& brush_color, int pen_size);
 
 	int Get_RGB() const;
 	void Select(HDC hdc) const;
@@ -29,7 +30,7 @@ class AsConfig
 {
 public:
 	static int Rand(int range);
-	static void Round_Rect(HDC hdc, RECT &rect, int corner_radius);
+	static void Round_Rect(HDC hdc, RECT &rect, int corner_radius = 2);
 	static void Throw();
 
 	static bool Level_Has_Floor;
@@ -55,7 +56,7 @@ public:
 	static const int Platform_Y_Pos = 185; // Y position of the platform
 	static const int FPS = 20;
 	static const int Max_Active_Bricks_Count = 10; // max count of active bricks
-	static const int Hits_Per_Letter = 1; // probability of hitting a letter 1.0%
+	static const int Hits_Per_Letter = 10; // probability of hitting a letter 1.0%
 	static const int Max_Falling_Letters_Count = 10; // max count of falling letters
 };
 // --------------------------------------------------------------------------------------------------------------------------------------

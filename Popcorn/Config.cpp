@@ -21,7 +21,14 @@ AColor::AColor(const AColor &color, int pen_size)
    Pen = CreatePen(PS_SOLID, pen_size, color.Get_RGB() );
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-int AColor::Get_RGB() const 
+AColor::AColor(const AColor &pen_color, const AColor& brush_color, int pen_size)
+: R(0), G(0), B(0), Pen(0), Brush(0)
+{
+   Pen = CreatePen(PS_SOLID, pen_size, pen_color.Get_RGB());
+	Brush = CreateSolidBrush(brush_color.Get_RGB());
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+int AColor::Get_RGB() const
 {
    return RGB(R, G, B);
 }
@@ -50,9 +57,9 @@ HBRUSH AColor::Get_Brush() const
 bool AsConfig::Level_Has_Floor = false; // indicates if the level has a floor (for the ball to bounce off)
 int AsConfig::Current_Timer_Tick = 0;
 
-const AColor AsConfig::Purple_Color (255, 85, 255);
-const AColor AsConfig::Blue_Color(85, 255, 255);
 const AColor AsConfig::BG_Color(15, 73, 31);
+const AColor AsConfig::Purple_Color(255, 85, 255);
+const AColor AsConfig::Blue_Color(85, 255, 255);
 const AColor AsConfig::White_Color(255, 255, 255);
 const AColor AsConfig::Letter_Color(AsConfig::White_Color, AsConfig::Global_Scale);
 

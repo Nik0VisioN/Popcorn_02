@@ -21,7 +21,7 @@ void AsEngine::Init_Engine(HWND hwnd)
    srand(file_time.dwLowDateTime);
    AsConfig::Hwnd = hwnd;
 
-   AActive_Brick_Red_And_Blue::Setup_Colors();
+   AActive_Brick_Purple_And_Blue::Setup_Colors();
 
    Level.Init();
    AFalling_Letter::Init();
@@ -135,7 +135,6 @@ void AsEngine::Act()
       if (Platform.Hit_By(falling_letter) )
          On_Falling_Letter(falling_letter);
 	}
-
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsEngine::On_Falling_Letter(AFalling_Letter *falling_letter)

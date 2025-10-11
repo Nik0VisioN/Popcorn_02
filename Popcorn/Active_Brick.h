@@ -7,14 +7,14 @@ enum EBrick_Type
 {
 	EBT_None,
 
-	EBT_Red,
+	EBT_Purple,
 	EBT_Blue,
 	EBT_Unbreakable,
 	EBT_Multihit_1,
 	EBT_Multihit_2,
 	EBT_Multihit_3,
 	EBT_Multihit_4,
-	EBT_Parashute,
+	EBT_Parachute,
 	EBT_Teleport,
 	EBT_Ad
 };
@@ -45,13 +45,13 @@ protected:
 // --------------------------------------------------------------------------------------------------------------------------------------
 
 
-//AActive_Brick_Red_And_Blue
+//AActive_Brick_Purple_And_Blue
 // --------------------------------------------------------------------------------------------------------------------------------------
-class AActive_Brick_Red_And_Blue: public AActive_Brick
+class AActive_Brick_Purple_And_Blue: public AActive_Brick
 {
 public:
-	~AActive_Brick_Red_And_Blue();
-	AActive_Brick_Red_And_Blue(EBrick_Type brick_type, int level_x, int level_y);
+	~AActive_Brick_Purple_And_Blue();
+	AActive_Brick_Purple_And_Blue(EBrick_Type brick_type, int level_x, int level_y);
 
 	virtual void Act();
 	virtual void Draw(HDC hdc, RECT& paint_area);
@@ -67,7 +67,7 @@ private:
 	static void Get_Fading_Color(const AColor& origin_color, int step, AColor& result_color);
 
 	static const int Max_Fade_Step = AsConfig::FPS;
-	static AColor Fading_Red_Brick_Colors[Max_Fade_Step];
+	static AColor Fading_Purple_Brick_Colors[Max_Fade_Step];
 	static AColor Fading_Blue_Brick_Colors[Max_Fade_Step];
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -93,6 +93,7 @@ private:
 
 	static const int Max_Animation_Step = 12;
 	static AColor Blue_Highlight, Purple_Highlight;
+
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 

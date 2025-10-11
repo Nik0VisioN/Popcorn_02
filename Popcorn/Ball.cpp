@@ -52,6 +52,9 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
       Ellipse(hdc, Prev_Ball_Rect.left, Prev_Ball_Rect.top, Prev_Ball_Rect.right - 1, Prev_Ball_Rect.bottom - 1);
    }
 
+   if (Ball_State == EBS_On_Parachute)
+		Draw_Parachute(hdc, paint_area);
+
    if (Ball_State == EBS_Lost)
 		return; // do not draw the ball if it is lost
 
@@ -206,6 +209,25 @@ bool ABall::Is_Moving_Left()
       return false; // the ball is moving right
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
+void ABall::Set_On_Parachute(int brick_x, int brick_y)
+{
+	static const int scale = AsConfig::Global_Scale;
+   int cell_x = AsConfig::Level_X_Offset + brick_x * AsConfig::Cell_Width;
+	int cell_y = AsConfig::Level_Y_Offset + brick_y * AsConfig::Cell_Height;
+
+	Ball_Direction = M_PI + M_PI_2;
+	Ball_Speed = 1.0;
+   Ball_State = EBS_On_Parachute;
+
+	Parachute_Rect.left = cell_x * scale;
+	Parachute_Rect.top = cell_y * scale;
+   Parachute_Rect.right = Parachute_Rect.left + Parachute_Size * scale;
+   Parachute_Rect.bottom = Parachute_Rect.top + Parachute_Size * scale;
+
+   Center_X_Pos = (double)(cell_x + AsConfig::Cell_Width / 2);
+	Center_Y_Pos = (double)(cell_y + Parachute_Size);
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
 void ABall::Add_Hit_Checker(AHit_Checker* hit_checker)
 {
 
@@ -224,5 +246,10 @@ void ABall::Redraw_Ball()
 
    InvalidateRect(AsConfig::Hwnd, &Prev_Ball_Rect, FALSE);
    InvalidateRect(AsConfig::Hwnd, &Ball_Rect, FALSE);
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void ABall::Draw_Parachute(HDC hdc, RECT &paint_area)
+{
+
 }
 // --------------------------------------------------------------------------------------------------------------------------------------

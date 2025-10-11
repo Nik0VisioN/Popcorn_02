@@ -153,7 +153,7 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 	const AColor *front_color, *back_color;
    XFORM xform, old_xform;
 
-   if (!(Brick_Type == EBT_Blue || Brick_Type == EBT_Red))
+   if (!(Brick_Type == EBT_Blue || Brick_Type == EBT_Purple))
       return; // the brick type with letter can be only red or blue
 
    // We adjust the rotation step and rotation angle
@@ -173,7 +173,7 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
    }
    else
    {
-      if (Brick_Type == EBT_Red)
+      if (Brick_Type == EBT_Purple)
          switch_color = true;
       else
          switch_color = false;
