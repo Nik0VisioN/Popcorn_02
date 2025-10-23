@@ -1,8 +1,8 @@
 // Popcorn.cpp : Defines the entry point for the application.
-//
 #include <sal.h> // Include the SAL header for annotations  
 #include "framework.h"
 #include "Main.h"
+
 
 #define MAX_LOADSTRING 100
 // Global Variables:

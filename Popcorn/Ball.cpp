@@ -1,5 +1,6 @@
 #include "Ball.h"
 
+
 // --------------------------------------------------------------------------------------------------------------------------------------
 bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double& x)
 { // Checks the intersection of a horizontal line segment (running from left_x to right_x via y) with a circle of radius "radius"
@@ -36,7 +37,7 @@ AHit_Checker *ABall::Hit_Checkers[] = {};
 // --------------------------------------------------------------------------------------------------------------------------------------
 ABall::ABall()
 : Ball_State(EBS_Normal), Center_X_Pos(0.0), Center_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0), Rest_Distance(0.0),
-Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}, Rest_Test_Distance(0.0)
+Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}, Rest_Test_Distance(0.0), Parachute_Rect{}
 {
    //Set_State(EBS_Normal, 0);
 }
@@ -226,6 +227,8 @@ void ABall::Set_On_Parachute(int brick_x, int brick_y)
 
    Center_X_Pos = (double)(cell_x + AsConfig::Cell_Width / 2);
 	Center_Y_Pos = (double)(cell_y + Parachute_Size);
+
+	InvalidateRect(AsConfig::Hwnd, &Parachute_Rect, FALSE);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void ABall::Add_Hit_Checker(AHit_Checker* hit_checker)
@@ -250,6 +253,35 @@ void ABall::Redraw_Ball()
 // --------------------------------------------------------------------------------------------------------------------------------------
 void ABall::Draw_Parachute(HDC hdc, RECT &paint_area)
 {
+	const int scale = AsConfig::Global_Scale;
+	int dome_hight = (Parachute_Rect.bottom - Parachute_Rect.top) / 2;
+	int arc_height = 4 * scale;
+   RECT intersection_rect, sub_arc, other_arc;
 
+   if (! IntersectRect(&intersection_rect, &paint_area, &Parachute_Rect))
+		return;
+
+	// 1. draw the parachute dome
+	AsConfig::Blue_Color.Select(hdc);
+   Chord(hdc, Parachute_Rect.left, Parachute_Rect.top, Parachute_Rect.right - 1, Parachute_Rect.bottom - 1, Parachute_Rect.right,
+   Parachute_Rect.top + dome_hight - 1, Parachute_Rect.left, Parachute_Rect.top + dome_hight - 1);
+   
+	// 2. draw the parachute strings
+	// 2.1. left string
+   AsConfig::BG_Color.Select(hdc);
+	AsConfig::Purple_Color.Select_Pen(hdc);
+
+	sub_arc.left = Parachute_Rect.left + 1;
+	sub_arc.top = Parachute_Rect.top + dome_hight - arc_height / 2;
+	sub_arc.right = sub_arc.left + 3 * scale;
+	sub_arc.bottom = sub_arc.top + 4 * scale;
+
+	Ellipse(hdc, sub_arc.left, sub_arc.top, sub_arc.right - 1, sub_arc.bottom - 1);
+
+	// 2.2. middle string
+	other_arc = sub_arc;
+
+	// 2.3 right string
+   
 }
 // --------------------------------------------------------------------------------------------------------------------------------------

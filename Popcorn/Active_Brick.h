@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Config.h"
 
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -39,8 +38,8 @@ protected:
 	virtual ~AActive_Brick();
 	AActive_Brick(EBrick_Type brick_type, int level_x, int level_y);
 
-	RECT Brick_Rect;
 	EBrick_Type Brick_Type;
+	RECT Brick_Rect;
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -92,7 +91,7 @@ private:
 	HRGN Region;
 
 	static const int Max_Animation_Step = 12;
-	static AColor Blue_Highlight, Purple_Highlight;
+	//static AColor Blue_Highlight, Purple_Highlight;
 
 };
 // --------------------------------------------------------------------------------------------------------------------------------------

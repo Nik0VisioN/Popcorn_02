@@ -41,7 +41,7 @@ char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 // AsLevel
 // --------------------------------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: Active_Brick(EBT_Blue, 0, 0), Level_Rect{}, Current_Brick_Left_X(0), Current_Brick_Right_X(0), Current_Brick_Top_Y(0),
+: /*Active_Brick(EBT_Blue, 0, 0),*/ Level_Rect{}, Current_Brick_Left_X(0), Current_Brick_Right_X(0), Current_Brick_Top_Y(0),
 Current_Brick_Low_Y(0), Active_Bricks_Count(0), Falling_Letters_Count(0), Active_Bricks{}, Falling_Letters{}, Parachute_Color(AsConfig::Purple_Color, AsConfig::Blue_Color, AsConfig::Global_Scale)
 {
    // Initialize Current_Level to zero  

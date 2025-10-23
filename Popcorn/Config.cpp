@@ -16,7 +16,7 @@ AColor::AColor(unsigned char r, unsigned char g, unsigned char b)
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 AColor::AColor(const AColor &color, int pen_size)
-: R(color.R), G(color.G), B(color.B), Pen(0)
+: R(color.R), G(color.G), B(color.B), Pen(0), Brush(0)
 {
    Pen = CreatePen(PS_SOLID, pen_size, color.Get_RGB() );
 }
@@ -62,6 +62,9 @@ const AColor AsConfig::Purple_Color(255, 85, 255);
 const AColor AsConfig::Blue_Color(85, 255, 255);
 const AColor AsConfig::White_Color(255, 255, 255);
 const AColor AsConfig::Letter_Color(AsConfig::White_Color, AsConfig::Global_Scale);
+const AColor AsConfig::Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
+const AColor AsConfig::Purple_Highlight(AsConfig::Purple_Color, 3 * AsConfig::Global_Scale);
+
 
 HWND AsConfig::Hwnd;
 const double AsConfig::Moving_Step_Size = 1.0 / AsConfig::Global_Scale;

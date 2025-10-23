@@ -1,10 +1,10 @@
 #pragma once
-
 #include <Windows.h>
-
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+
 // --------------------------------------------------------------------------------------------------------------------------------------
 class AColor
 {
@@ -12,7 +12,7 @@ public:
 	AColor();
 	AColor(unsigned char r, unsigned char g, unsigned char b);
 	AColor(const AColor &color, int pen_size);
-	AColor(const AColor& pen_color, const AColor& brush_color, int pen_size);
+	AColor(const AColor &pen_color, const AColor &brush_color, int pen_size);
 
 	int Get_RGB() const;
 	void Select(HDC hdc) const;
@@ -36,6 +36,7 @@ public:
 	static bool Level_Has_Floor;
 	static int Current_Timer_Tick;
 	static const AColor BG_Color, Purple_Color, Blue_Color, White_Color, Letter_Color;
+	static const AColor Blue_Highlight, Purple_Highlight;
 	static HWND Hwnd;
 
 	static const double Moving_Step_Size;
@@ -56,7 +57,7 @@ public:
 	static const int Platform_Y_Pos = 185; // Y position of the platform
 	static const int FPS = 20;
 	static const int Max_Active_Bricks_Count = 10; // max count of active bricks
-	static const int Hits_Per_Letter = 10; // probability of hitting a letter 1.0%
+	static const int Hits_Per_Letter = 10; // chanse of a letter to fall from a brick
 	static const int Max_Falling_Letters_Count = 10; // max count of falling letters
 };
 // --------------------------------------------------------------------------------------------------------------------------------------

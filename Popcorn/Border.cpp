@@ -1,5 +1,6 @@
 #include "Border.h"
 
+
 // AsBorder
 // --------------------------------------------------------------------------------------------------------------------------------------
 AsBorder::AsBorder()
@@ -92,7 +93,3 @@ void AsBorder::Draw_Element(HDC hdc, int x, int y, bool top_border)
       Rectangle(hdc, (x + 2) * AsConfig::Global_Scale, (y + 1) * AsConfig::Global_Scale, (x + 3) * AsConfig::Global_Scale - 1, (y + 2) * AsConfig::Global_Scale - 1);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-

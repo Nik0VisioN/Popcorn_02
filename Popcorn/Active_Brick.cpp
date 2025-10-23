@@ -1,5 +1,6 @@
 #include "Active_Brick.h"
 
+
 //AGraphics_Object
 // --------------------------------------------------------------------------------------------------------------------------------------
 AGraphics_Object::~AGraphics_Object()
@@ -31,12 +32,12 @@ AActive_Brick::AActive_Brick(EBrick_Type brick_type, int level_x, int level_y)
 
 //AActive_Brick_Purple_And_Blue
 // --------------------------------------------------------------------------------------------------------------------------------------
+AColor AActive_Brick_Purple_And_Blue::Fading_Purple_Brick_Colors[Max_Fade_Step];
+AColor AActive_Brick_Purple_And_Blue::Fading_Blue_Brick_Colors[Max_Fade_Step];
+// --------------------------------------------------------------------------------------------------------------------------------------
 AActive_Brick_Purple_And_Blue::~AActive_Brick_Purple_And_Blue()
 {
 }
-// --------------------------------------------------------------------------------------------------------------------------------------
-AColor AActive_Brick_Purple_And_Blue::Fading_Purple_Brick_Colors[Max_Fade_Step];
-AColor AActive_Brick_Purple_And_Blue::Fading_Blue_Brick_Colors[Max_Fade_Step];
 // --------------------------------------------------------------------------------------------------------------------------------------
 AActive_Brick_Purple_And_Blue::AActive_Brick_Purple_And_Blue(EBrick_Type brick_type, int level_x, int level_y)
 	: AActive_Brick(brick_type, level_x, level_y), Fade_Step(0)
@@ -144,9 +145,8 @@ void AActive_Brick_Purple_And_Blue::Get_Fading_Color(const AColor &origin_color,
 
 //AActive_Brick_Unbreakable
 // --------------------------------------------------------------------------------------------------------------------------------------
-//.. MISTACE ( drawing Black color instead of Blue and Purple colors ) ..//
-AColor AActive_Brick_Unbreakable::Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
-AColor AActive_Brick_Unbreakable::Purple_Highlight(AsConfig::Purple_Color, 3 * AsConfig::Global_Scale);
+//AColor AActive_Brick_Unbreakable::Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
+//AColor AActive_Brick_Unbreakable::Purple_Highlight(AsConfig::Purple_Color, 3 * AsConfig::Global_Scale);
 // --------------------------------------------------------------------------------------------------------------------------------------
 AActive_Brick_Unbreakable::~AActive_Brick_Unbreakable()
 {
@@ -179,11 +179,11 @@ void AActive_Brick_Unbreakable::Draw(HDC hdc, RECT& paint_area)
 
    offset = 2 * Animation_Step * scale - AsConfig::Brick_Width * scale;
 
-   Blue_Highlight.Select_Pen(hdc);
+   AsConfig::Blue_Highlight.Select_Pen(hdc);
    MoveToEx(hdc, Brick_Rect.left + 4 * scale + offset, Brick_Rect.bottom + scale, 0);
    LineTo(hdc, Brick_Rect.left + 13 * scale + offset - 1, Brick_Rect.top - 1 * scale);
 
-   Purple_Highlight.Select_Pen(hdc);
+   AsConfig::Purple_Highlight.Select_Pen(hdc);
    MoveToEx(hdc, Brick_Rect.left + 6 * scale + offset, Brick_Rect.bottom + scale, 0);
    LineTo(hdc, Brick_Rect.left + 15 * scale + offset - 1, Brick_Rect.top - 1 * scale);
 
