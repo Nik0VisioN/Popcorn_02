@@ -34,11 +34,11 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 
    // Check for reflection from the left ball of the platform
 	if(Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball))
-      return true;
+      goto _on_hit;
 
    // Check for reflection from the right ball of the platform
    if (Reflect_On_Circle(next_x_pos, next_y_pos, Width - Circle_Size, ball))
-      return true;
+      goto _on_hit;
 
    if (ball->Is_Moving_Up())
       inner_y = inner_low_y;   // Check the reflection from the bottom edge of the platform
@@ -48,9 +48,15 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
    if (Hit_Circle_On_Line(next_y_pos - inner_y, next_x_pos, inner_left_x, inner_right_x, ball->Radius, reflection_pos))
    {
       ball->Reflect(true);
-      return true;
+      goto _on_hit;
    }
 	return false;
+
+_on_hit:
+   if(ball -> Get_State() == EBS_On_Parachute)
+      ball->Set_State(EBS_Off_Parachute, 0, 0);
+
+	return true;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------// --------------------------------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act()

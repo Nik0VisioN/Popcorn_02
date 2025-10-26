@@ -91,8 +91,6 @@ private:
 	HRGN Region;
 
 	static const int Max_Animation_Step = 12;
-	//static AColor Blue_Highlight, Purple_Highlight;
-
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 

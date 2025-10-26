@@ -12,7 +12,7 @@ char AsLevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 3,
+  2, 2, 2, 2, 2, 2, 3, 4, 3, 5, 6, 8,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -41,7 +41,7 @@ char AsLevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 // AsLevel
 // --------------------------------------------------------------------------------------------------------------------------------------
 AsLevel::AsLevel()
-: /*Active_Brick(EBT_Blue, 0, 0),*/ Level_Rect{}, Current_Brick_Left_X(0), Current_Brick_Right_X(0), Current_Brick_Top_Y(0),
+: Active_Brick(EBT_Blue, 0, 0), Level_Rect{}, Current_Brick_Left_X(0), Current_Brick_Right_X(0), Current_Brick_Top_Y(0),
 Current_Brick_Low_Y(0), Active_Bricks_Count(0), Falling_Letters_Count(0), Active_Bricks{}, Falling_Letters{}, Parachute_Color(AsConfig::Purple_Color, AsConfig::Blue_Color, AsConfig::Global_Scale)
 {
    // Initialize Current_Level to zero  
@@ -153,9 +153,6 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
    int i, j;
    RECT intersection_rect, brick_rect;
   
-	//AFalling_Letter falling_letter(EBT_Blue, ELT_Plus, 8 * AsConfig::Global_Scale, 150 * AsConfig::Global_Scale);
- //  falling_letter.Test_Draw_All_Steps(hdc);
-
    if (IntersectRect(&intersection_rect, &paint_area, &Level_Rect))
    {
    for (i = 0; i < AsConfig::Level_Height; i++)

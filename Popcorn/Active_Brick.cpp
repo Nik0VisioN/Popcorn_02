@@ -145,9 +145,6 @@ void AActive_Brick_Purple_And_Blue::Get_Fading_Color(const AColor &origin_color,
 
 //AActive_Brick_Unbreakable
 // --------------------------------------------------------------------------------------------------------------------------------------
-//AColor AActive_Brick_Unbreakable::Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
-//AColor AActive_Brick_Unbreakable::Purple_Highlight(AsConfig::Purple_Color, 3 * AsConfig::Global_Scale);
-// --------------------------------------------------------------------------------------------------------------------------------------
 AActive_Brick_Unbreakable::~AActive_Brick_Unbreakable()
 {
 	DeleteObject(Region);
