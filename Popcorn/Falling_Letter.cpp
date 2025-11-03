@@ -55,7 +55,7 @@ void AFalling_Letter::Draw(HDC hdc, RECT& paint_area)
       Rectangle(hdc, Prev_Letter_Cell.left, Prev_Letter_Cell.top, Prev_Letter_Cell.right, Prev_Letter_Cell.bottom);
    }
 
-   if(Falling_Letter_State == EFLS_Finalizing)
+   if (Falling_Letter_State == EFLS_Finalizing)
    {
       Falling_Letter_State = EFLS_Finished;
 		return; // do not draw the letter if it got hit

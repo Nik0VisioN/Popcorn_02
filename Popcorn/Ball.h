@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Config.h"
 // --------------------------------------------------------------------------------------------------------------------------------------
 enum EBall_State
@@ -8,7 +7,8 @@ enum EBall_State
 	EBS_Lost,
 	EBS_On_Platform,
 	EBS_On_Parachute,
-	EBS_Off_Parachute
+	EBS_Off_Parachute,
+	EBS_Teleporting
 };
 
 // --------------------------------------------------------------------------------------------------------------------------------------
@@ -27,11 +27,13 @@ public:
 	ABall();
 
 	void Draw(HDC hdc, RECT& paint_area);
+	void Draw_Teleporting(HDC hdc, int step);
 	void Move();
 	void Set_For_Test();
 	bool Is_Test_Finished();
 	EBall_State Get_State();
 	void Set_State(EBall_State new_state, double x_pos, double y_pos = Start_Ball_Y_Pos);
+	void Get_Center(double& x_pos, double& y_pos);
 	double Get_Direction();
 	void Set_Direction(double new_direction);
 	void Reflect(bool from_horizontal);

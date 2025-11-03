@@ -62,9 +62,9 @@ const AColor AsConfig::Purple_Color(255, 85, 255);
 const AColor AsConfig::Blue_Color(85, 255, 255);
 const AColor AsConfig::White_Color(255, 255, 255);
 const AColor AsConfig::Letter_Color(AsConfig::White_Color, AsConfig::Global_Scale);
-const AColor AsConfig::Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
-const AColor AsConfig::Purple_Highlight(AsConfig::Purple_Color, 3 * AsConfig::Global_Scale);
-
+const AColor AsConfig::Unbreakable_Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
+const AColor AsConfig::Unbreakable_Purple_Highlight(AsConfig::Purple_Color, 3 * AsConfig::Global_Scale);
+const AColor AsConfig::Teleport_Portal_Color(AsConfig::Blue_Color, AsConfig::BG_Color, AsConfig::Global_Scale);
 
 HWND AsConfig::Hwnd;
 const double AsConfig::Moving_Step_Size = 1.0 / AsConfig::Global_Scale;

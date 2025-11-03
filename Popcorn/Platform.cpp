@@ -33,7 +33,7 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 
 
    // Check for reflection from the left ball of the platform
-	if(Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball))
+	if (Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball))
       goto _on_hit;
 
    // Check for reflection from the right ball of the platform
@@ -53,7 +53,7 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	return false;
 
 _on_hit:
-   if(ball -> Get_State() == EBS_On_Parachute)
+   if (ball -> Get_State() == EBS_On_Parachute)
       ball->Set_State(EBS_Off_Parachute, 0, 0);
 
 	return true;
@@ -240,7 +240,7 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
    x *= AsConfig::Global_Scale;
    y *= AsConfig::Global_Scale;
 
-   if(Normal_Platform_Image == 0 && Platform_State == EPS_Ready)
+   if (Normal_Platform_Image == 0 && Platform_State == EPS_Ready)
    {
 		Normal_Platform_Image_Width = Width * AsConfig::Global_Scale;
 		Normal_Platform_Image_Height = Height * AsConfig::Global_Scale;
@@ -267,7 +267,7 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 
    for(i = 0; i < Normal_Platform_Image_Width; i++)
    {
-      if(Meltdown_Platform_Y_Pos[i] > max_platform_y)
+      if (Meltdown_Platform_Y_Pos[i] > max_platform_y)
          continue;
 
       ++moved_columns_count;

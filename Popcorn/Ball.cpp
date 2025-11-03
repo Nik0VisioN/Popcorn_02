@@ -46,6 +46,9 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
 {
    RECT intersection_rect;
 
+   if ( (Ball_State == EBS_Teleporting || Ball_State == EBS_Lost) && Ball_State == Prev_Ball_State)
+		return; // do not draw the ball if it is teleporting
+
    // clear the previous ball
    if (IntersectRect(&intersection_rect, &paint_area, &Prev_Ball_Rect))
    {
@@ -68,6 +71,12 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
 			if (Prev_Ball_State == EBS_On_Parachute)
 				Clear_Parachute(hdc);
 		   return; // do not draw the ball if it is lost
+
+      case EBS_Teleporting:
+			return; // do not draw the ball if it is teleporting
+
+      default:
+		   break;
    }
 
    // draw the ball
@@ -78,13 +87,26 @@ void ABall::Draw(HDC hdc, RECT& paint_area)
    }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
+void ABall::Draw_Teleporting(HDC hdc, int step)
+{
+   int top_y = Ball_Rect.top + step;
+	int low_y = Ball_Rect.bottom - step - 1;
+
+   if (top_y >= low_y)
+		return; // nothing to draw
+
+   AsConfig::White_Color.Select(hdc);
+   Ellipse(hdc, Ball_Rect.left, top_y, Ball_Rect.right - 1, low_y);
+
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
 void ABall::Move()
 {
 	int i;
    bool got_hit;
    double next_x_pos, next_y_pos;
 
-   if(Ball_State == EBS_Lost || Ball_State == EBS_On_Platform)
+   if (Ball_State == EBS_Lost || Ball_State == EBS_On_Platform || Ball_State == EBS_Teleporting)
       return;
 
    Prev_Ball_Rect = Ball_Rect;
@@ -117,7 +139,7 @@ void ABall::Move()
    }
    Redraw_Ball();
 
-   if(Ball_State == EBS_On_Parachute)
+   if (Ball_State == EBS_On_Parachute)
    {
 		Prev_Parachute_Rect = Parachute_Rect;
 
@@ -204,10 +226,33 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
       Redraw_Ball();
       Redraw_Parachute();
       break;
+
+   case EBS_Teleporting:
+      if (!(Ball_State == EBS_Normal || Ball_State == EBS_On_Parachute || Ball_State == EBS_Teleporting))
+         AsConfig::Throw(); // the ball can be going only from the EBS_Normal or on EBS_On_Parachute states
+
+      Center_X_Pos = x_pos;
+      Center_Y_Pos = y_pos;
+      Ball_Speed = 0.0;
+      Rest_Distance = 0.0;
+      Redraw_Ball();
+
+      if (Ball_State == EBS_On_Parachute)
+         Redraw_Parachute();
+		break;
+
+	default:
+		AsConfig::Throw(); // unknown ball state
    }
 
    Prev_Ball_State = Ball_State;
 	Ball_State = new_state;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void ABall::Get_Center(double& x_pos, double& y_pos)
+{
+	x_pos = Center_X_Pos;
+	y_pos = Center_Y_Pos;
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 double ABall::Get_Direction()
@@ -279,7 +324,7 @@ void ABall::Set_On_Parachute(int brick_x, int brick_y)
 void ABall::Add_Hit_Checker(AHit_Checker* hit_checker)
 {
 
-   if(Hit_Checkers_Count >= sizeof(Hit_Checkers) / sizeof(Hit_Checkers[0]) )
+   if (Hit_Checkers_Count >= sizeof(Hit_Checkers) / sizeof(Hit_Checkers[0]) )
       return;
 
 	Hit_Checkers[Hit_Checkers_Count++] = hit_checker;

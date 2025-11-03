@@ -36,7 +36,7 @@ public:
 	static bool Level_Has_Floor;
 	static int Current_Timer_Tick;
 	static const AColor BG_Color, Purple_Color, Blue_Color, White_Color, Letter_Color;
-	static const AColor Blue_Highlight, Purple_Highlight;
+	static const AColor Unbreakable_Blue_Highlight, Unbreakable_Purple_Highlight, Teleport_Portal_Color;
 	static HWND Hwnd;
 
 	static const double Moving_Step_Size;
