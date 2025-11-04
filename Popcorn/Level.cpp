@@ -5,14 +5,14 @@
 char AsLevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  1, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 9, 1, 1, 1, 1, 1, 1, 1, 9, 1,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  1, 1, 1, 1, 0, 0, 0, 0, 0, 10, 10, 0,
+  2, 2, 2, 2, 0, 0, 0, 0, 0, 10, 10, 0,
+  2, 2, 8, 7, 0, 0, 0, 0, 0, 10, 10, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -48,7 +48,7 @@ AsLevel::~AsLevel()
 AsLevel::AsLevel()
 : Active_Brick(EBT_Blue, 0, 0), Level_Rect{}, Current_Brick_Left_X(0), Current_Brick_Right_X(0), Current_Brick_Top_Y(0),
 Current_Brick_Low_Y(0), Active_Bricks_Count(0), Falling_Letters_Count(0), Active_Bricks{}, Falling_Letters{}, Parachute_Color(AsConfig::Purple_Color, AsConfig::Blue_Color, AsConfig::Global_Scale),
-Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0)
+Teleport_Bricks_Count(0), Teleport_Bricks_Pos(0), Advertisement(0)
 {
    // Initialize Current_Level to zero  
    memset(Current_Level, 0, sizeof(Current_Level));
@@ -79,9 +79,21 @@ bool AsLevel::Check_Hit(double next_x_pos, double next_y_pos, ABall* ball)
 	max_ball_y = next_y_pos + ball->Radius;
 
 	min_level_x = (int)((min_ball_x - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width);
+   if (min_level_x < 0)
+		min_level_x = 0;
+
 	max_level_x = (int)((max_ball_x - AsConfig::Level_X_Offset) / (double)AsConfig::Cell_Width);
+	if (max_level_x >= AsConfig::Level_Width - 1)
+		max_level_x = AsConfig::Level_Width - 1;
+
 	min_level_y = (int)((min_ball_y - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height);
+   if (min_level_y < 0)
+      min_level_y = 0;
+
 	max_level_y = (int)((max_ball_y - AsConfig::Level_Y_Offset) / (double)AsConfig::Cell_Height);
+   if (max_level_y >= AsConfig::Level_Height - 1)
+      max_level_y = AsConfig::Level_Height - 1;
+
 
    for (i = max_level_y; i >= min_level_y; i--)
    {
@@ -195,12 +207,16 @@ void AsLevel::Set_Current_Level(char level[AsConfig::Level_Height][AsConfig::Lev
          }
       }
    }
+   Advertisement = new AAdvertisement(5, 6, 2, 3);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsLevel::Act()
 {
 	Act_Objects((AGraphics_Object**)&Active_Bricks, Active_Bricks_Count ,AsConfig::Max_Active_Bricks_Count);
    Act_Objects((AGraphics_Object**)&Falling_Letters, Falling_Letters_Count ,AsConfig::Max_Falling_Letters_Count);
+
+   if(Advertisement != 0)
+	   Advertisement->Act();
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw(HDC hdc, RECT &paint_area)
@@ -208,6 +224,10 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
    int i, j;
    RECT intersection_rect, brick_rect;
   
+	// clear objects in the paint area
+   Clear_Objects(hdc, paint_area, (AGraphics_Object**)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
+
+	// draw objects in the paint area
    if (IntersectRect(&intersection_rect, &paint_area, &Level_Rect))
    {
    for (i = 0; i < AsConfig::Level_Height; i++)
@@ -225,6 +245,10 @@ void AsLevel::Draw(HDC hdc, RECT &paint_area)
       Draw_Objects(hdc, paint_area, (AGraphics_Object**)&Active_Bricks, AsConfig::Max_Active_Bricks_Count);
    }
 	 Draw_Objects(hdc, paint_area, (AGraphics_Object **)&Falling_Letters, AsConfig::Max_Falling_Letters_Count);
+
+
+    if (Advertisement != 0)
+       Advertisement->Draw(hdc, paint_area);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 bool AsLevel::Get_Next_Falling_Letter(int& index, AFalling_Letter** falling_letter)
@@ -324,6 +348,10 @@ bool AsLevel::Create_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_ty
 		case EBT_Teleport:
          Add_Active_Brick_Teleport(brick_x, brick_y, ball, vertical_hit);
 			return false; // teleport bricks do not reflect the ball
+
+      case EBT_Ad:
+         active_brick = new AActive_Brick_Ad(brick_x, brick_y);
+         break; // teleport bricks do not reflect the ball
 
       default:
          AsConfig::Throw();
@@ -579,6 +607,9 @@ void AsLevel::Draw_Brick(HDC hdc, RECT &brick_rect, EBrick_Type brick_type)
       AActive_Brick_Teleport::Draw_In_Level(hdc, brick_rect);
       break;
 
+   case EBT_Ad:
+      AActive_Brick_Ad::Draw_In_Level(hdc, brick_rect);
+      break;
 
    default:
       AsConfig::Throw();
@@ -612,6 +643,17 @@ void AsLevel::Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int wid
    rect.bottom += 3 * scale;
    Parachute_Color.Select(hdc);
    AsConfig::Round_Rect(hdc, rect);
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+void AsLevel::Clear_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int objects_max_count)
+{
+   int i;
+
+   for (i = 0; i < objects_max_count; i++)
+   {
+      if (objects_array[i] != 0)
+         objects_array[i]->Clear(hdc, paint_area);
+   }
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AsLevel::Draw_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int objects_max_count)

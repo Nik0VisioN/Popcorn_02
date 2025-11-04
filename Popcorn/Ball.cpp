@@ -30,7 +30,7 @@ bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x
 
 
 //ABall
-const double ABall::Start_Ball_Y_Pos = 181.0; // initial Y position of the ball
+const double ABall::Start_Ball_Y_Pos = 184.0; // initial Y position of the ball
 const double ABall::Radius = 2.0 - 0.5 / AsConfig::Global_Scale; // radius of the ball
 int ABall::Hit_Checkers_Count = 0;
 AHit_Checker *ABall::Hit_Checkers[] = {};

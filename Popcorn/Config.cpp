@@ -21,6 +21,12 @@ AColor::AColor(const AColor &color, int pen_size)
    Pen = CreatePen(PS_SOLID, pen_size, color.Get_RGB() );
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
+AColor::AColor(unsigned char r, unsigned char g, unsigned char b, int pen_size)
+: R(r), G(g), B(b), Pen(0), Brush(0)
+{
+   Pen = CreatePen(PS_SOLID, pen_size, RGB(r, g, b));
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
 AColor::AColor(const AColor &pen_color, const AColor& brush_color, int pen_size)
 : R(0), G(0), B(0), Pen(0), Brush(0)
 {
@@ -65,6 +71,8 @@ const AColor AsConfig::Letter_Color(AsConfig::White_Color, AsConfig::Global_Scal
 const AColor AsConfig::Unbreakable_Blue_Highlight(AsConfig::Blue_Color, AsConfig::Global_Scale);
 const AColor AsConfig::Unbreakable_Purple_Highlight(AsConfig::Purple_Color, 3 * AsConfig::Global_Scale);
 const AColor AsConfig::Teleport_Portal_Color(AsConfig::Blue_Color, AsConfig::BG_Color, AsConfig::Global_Scale);
+const AColor AsConfig::Advertisement_Purple(AsConfig::Purple_Color, 2 * AsConfig::Global_Scale);
+const AColor AsConfig::Advertisement_Blue(0, 159, 159, AsConfig::Global_Scale);
 
 HWND AsConfig::Hwnd;
 const double AsConfig::Moving_Step_Size = 1.0 / AsConfig::Global_Scale;

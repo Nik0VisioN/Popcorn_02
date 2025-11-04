@@ -32,6 +32,7 @@ public:
 	virtual ~AGraphics_Object();
 
 	virtual void Act() = 0;
+	virtual void Clear(HDC hdc, RECT& paint_area) = 0;
 	virtual void Draw(HDC hdc, RECT& paint_area) = 0;
 	virtual bool Is_Finished() = 0;
 };
@@ -49,7 +50,8 @@ public:
 protected:
 	virtual ~AActive_Brick();
 	AActive_Brick(EBrick_Type brick_type, int level_x, int level_y);
-	
+	virtual void Clear(HDC hdc, RECT& paint_area);
+
 	double Get_Brick_X_Pos(bool of_center);
 	double Get_Brick_Y_Pos(bool of_center);
 
@@ -169,5 +171,51 @@ private:
 	AActive_Brick_Teleport *Destination_Teleport;
 
 	static const int Max_Animation_Step = 12;
+};
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+//AAdvertisement
+// --------------------------------------------------------------------------------------------------------------------------------------
+class AAdvertisement : public AGraphics_Object
+{
+public:
+	AAdvertisement(int level_x, int level_y, int width, int height);
+
+	virtual void Act();
+	virtual void Clear(HDC hdc, RECT& paint_area);
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
+private:
+	int Level_X, Level_Y;
+	int Width, Height;
+	RECT Ad_Rect;
+};
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+//AActive_Brick_Ad
+// --------------------------------------------------------------------------------------------------------------------------------------
+class AActive_Brick_Ad : public AActive_Brick
+{
+public:
+	~AActive_Brick_Ad();
+	AActive_Brick_Ad(int level_x, int level_y);
+
+	virtual void Act();
+	virtual void Draw(HDC hdc, RECT& paint_area);
+	virtual bool Is_Finished();
+
+	static void Draw_In_Level(HDC hdc, RECT& brick_rect);
+
+private:
+	//int Animation_Step;
+	//HRGN Region;
+
+	static const int Circle_Size = 7;
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
