@@ -37,7 +37,7 @@ private:
 	bool Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type);
 	bool Check_Vertical_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos);
 	bool Check_Horizontal_Hit(double next_x_pos, double next_y_pos, int level_x, int level_y, ABall* ball, double &reflection_pos);
-	void Draw_Brick(HDC hdc, RECT &brick_rect, EBrick_Type brick_type);
+	void Draw_Brick(HDC hdc, RECT &brick_rect, int level_x, int level_y);
 	void Draw_Parachute_In_Level(HDC hdc, RECT& brick_rect);
 	void Draw_Parachute_Part(HDC hdc, RECT& brick_rect, int offset, int width);
 	void Clear_Objects(HDC hdc, RECT& paint_area, AGraphics_Object** objects_array, int objects_max_count);

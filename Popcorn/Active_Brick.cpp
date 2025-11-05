@@ -519,9 +519,17 @@ void AActive_Brick_Teleport::Set_Ball(ABall* ball)
 
 //AAdvertisement
 // --------------------------------------------------------------------------------------------------------------------------------------
-AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
-: Level_X(level_x), Level_Y(level_y), Width(width), Height(height)
+AAdvertisement::~AAdvertisement()
 {
+   delete[] Brick_Mask;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
+: Level_X(level_x), Level_Y(level_y), Width(width), Height(height), Brick_Mask(0)
+{
+	Brick_Mask = new char[Width * Height];
+	memset(Brick_Mask, 0, Width * Height);
+
    Ad_Rect.left = (AsConfig::Level_X_Offset + Level_X * AsConfig::Cell_Width) * AsConfig::Global_Scale;
    Ad_Rect.top = (AsConfig::Level_Y_Offset + Level_Y * AsConfig::Cell_Height) * AsConfig::Global_Scale;
    Ad_Rect.right = Ad_Rect.left + Width * AsConfig::Cell_Width * AsConfig::Global_Scale;
@@ -530,10 +538,32 @@ AAdvertisement::AAdvertisement(int level_x, int level_y, int width, int height)
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Act()
 {
+	int i, j;
+	int cell_width = AsConfig::Cell_Width * AsConfig::Global_Scale;
+	int cell_height = AsConfig::Cell_Height * AsConfig::Global_Scale;
+	RECT rect;
+
+   for (i = 0; i < Height; i++)
+      for (j = 0; j < Width; j++)
+         if (Brick_Mask[i * Width + j] == 1)
+         {
+				rect.left = Ad_Rect.left + j * cell_width;
+				rect.top = Ad_Rect.top + i * cell_height;
+				rect.right = rect.left + cell_width;
+            rect.bottom = rect.top + cell_height;
+				InvalidateRect(AsConfig::Hwnd, &rect, FALSE);
+			}
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Clear(HDC hdc, RECT& paint_area)
 {
+	RECT intersection_rect;
+
+   if (!IntersectRect(&intersection_rect, &paint_area, &Ad_Rect))
+      return; // no intersection
+
+   AsConfig::BG_Color.Select(hdc);
+	Rectangle(hdc, Ad_Rect.left, Ad_Rect.top, Ad_Rect.right - 1, Ad_Rect.bottom - 1);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AAdvertisement::Draw(HDC hdc, RECT& paint_area)
@@ -585,6 +615,30 @@ bool AAdvertisement::Is_Finished()
 	return false; // advertisement is never finished ;)
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
+void AAdvertisement::Show_Under_Brick(int level_x, int level_y)
+{
+   int x, y;
+
+	x = level_x - Level_X;
+	y = level_y - Level_Y;
+   
+   if ( x < 0 || x >= Width)
+		AsConfig::Throw(); // invalid brick position
+	if (y < 0 || y >= Height)
+		AsConfig::Throw(); // invalid brick position
+
+   Brick_Mask[y * Width + x] = 1;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
+bool AAdvertisement::Has_Brick_At(int level_x, int level_y)
+{
+   if (level_x >= Level_X && level_x < Level_X + Width)
+      if (level_y >= Level_Y && level_y < Level_Y + Height)
+         return true;
+
+   return false; 
+}
+// --------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -593,13 +647,13 @@ bool AAdvertisement::Is_Finished()
 // --------------------------------------------------------------------------------------------------------------------------------------
 AActive_Brick_Ad::~AActive_Brick_Ad()
 {
-   /*DeleteObject(Region);*/
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
-AActive_Brick_Ad::AActive_Brick_Ad(int level_x, int level_y)
-   : AActive_Brick(EBT_Ad, level_x, level_y) /*Animation_Step(0), Region(0)*/
+AActive_Brick_Ad::AActive_Brick_Ad(int level_x, int level_y, AAdvertisement *advertisement)
+	: AActive_Brick(EBT_Ad, level_x, level_y), Advertisement(advertisement)
 {
-   //Region = CreateRoundRectRgn(Brick_Rect.left, Brick_Rect.top, Brick_Rect.right + 1, Brick_Rect.bottom + 1, 2 * AsConfig::Global_Scale - 1, 2 * AsConfig::Global_Scale - 1);
+   if (Advertisement != 0)
+      Advertisement->Show_Under_Brick(Level_X, Level_Y);
 }
 // --------------------------------------------------------------------------------------------------------------------------------------
 void AActive_Brick_Ad::Act()
@@ -631,7 +685,11 @@ void AActive_Brick_Ad::Draw_In_Level(HDC hdc, RECT& brick_rect)
 	int y = brick_rect.top;
    int size = (Circle_Size - 1) * scale - 1;
 
+	// Clear the background ( previose advertisement ( image )))
+	AsConfig::BG_Color.Select(hdc);
+	Rectangle(hdc, brick_rect.left, brick_rect.top, brick_rect.right + scale, brick_rect.bottom + scale);
 
+	// Draw two purple circles in the advertisement brick
    for (i = 0; i < 2; i++)
    {
       AsConfig::Purple_Color.Select(hdc);
