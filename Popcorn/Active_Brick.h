@@ -199,8 +199,17 @@ private:
 	int Width, Height;
 	RECT Ad_Rect;
 	HRGN Empty_Region;
+	int Ball_X, Ball_Y;
+	int Ball_Width, Ball_Height;
+	int Ball_Y_Offset;
+	double Falling_Speed, Acceleration_Step; 
+	double Deformation_Ratio;
 
 	HRGN *Brick_Regions;
+	static const int Ball_Size = 12;
+	static const int High_Ball_Threshold = 11 * AsConfig::Global_Scale;
+	static const int Low_Ball_Threshold = -3 * AsConfig::Global_Scale;
+	static const int Deformation_Height = 2 * AsConfig::Global_Scale;
 };
 // --------------------------------------------------------------------------------------------------------------------------------------
 
