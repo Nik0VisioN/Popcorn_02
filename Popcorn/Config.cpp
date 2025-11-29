@@ -76,6 +76,7 @@ const AColor AsConfig::Advertisement_Blue(0, 159, 159, AsConfig::Global_Scale);
 
 HWND AsConfig::Hwnd;
 const double AsConfig::Moving_Step_Size = 1.0 / AsConfig::Global_Scale;
+const double AsConfig::Start_Ball_Y_Pos = 184.0; // initial Y position of the ball
 // --------------------------------------------------------------------------------------------------------------------------------------
 int AsConfig::Rand(int range)
 {

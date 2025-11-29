@@ -13,10 +13,10 @@ enum ELetter_Type
 	ELT_K, // glue
 	ELT_W, // wide
 	
-	ELT_P, // floor
-	ELT_L, // lazer
 	ELT_T, // three balls
-		
+	ELT_L, // lazer
+	ELT_P, // floor
+
 	ELT_Plus, // move to the next level
 	
 	ELT_Max

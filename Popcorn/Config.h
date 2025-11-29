@@ -42,6 +42,7 @@ public:
 	static HWND Hwnd;
 
 	static const double Moving_Step_Size;
+	static const double Start_Ball_Y_Pos; // initial Y position of the ball
 
 	static const int Global_Scale = 3; // scale of the game
 	static const int Border_X_Offset = 6;
@@ -61,5 +62,6 @@ public:
 	static const int Max_Active_Bricks_Count = 10; // max count of active bricks
 	static const int Hits_Per_Letter = 10; // chanse of a letter to fall from a brick
 	static const int Max_Falling_Letters_Count = 10; // max count of falling letters
+	static const int Max_Balls_Count = 12; // max count of balls in the game
 };
 // --------------------------------------------------------------------------------------------------------------------------------------

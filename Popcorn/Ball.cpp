@@ -30,13 +30,12 @@ bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x
 
 
 //ABall
-const double ABall::Start_Ball_Y_Pos = 184.0; // initial Y position of the ball
 const double ABall::Radius = 2.0 - 0.5 / AsConfig::Global_Scale; // radius of the ball
 int ABall::Hit_Checkers_Count = 0;
 AHit_Checker *ABall::Hit_Checkers[] = {};
 // --------------------------------------------------------------------------------------------------------------------------------------
 ABall::ABall()
-: Ball_State(EBS_Normal), Prev_Ball_State(EBS_Normal), Center_X_Pos(0.0), Center_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0), Rest_Distance(0.0),
+: Ball_State(EBS_Disabled), Prev_Ball_State(EBS_Disabled), Center_X_Pos(0.0), Center_Y_Pos(0.0), Ball_Speed(0.0), Rest_Distance(0.0),
 Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}, Rest_Test_Distance(0.0), Parachute_Rect{}, Prev_Parachute_Rect{}
 {
    //Set_State(EBS_Normal, 0);
@@ -45,6 +44,9 @@ Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Pre
 void ABall::Draw(HDC hdc, RECT& paint_area)
 {
    RECT intersection_rect;
+
+   if (Ball_State == EBS_Disabled)
+		return; // do not draw the ball if it is disabled
 
    if ( (Ball_State == EBS_Teleporting || Ball_State == EBS_Lost) && Ball_State == Prev_Ball_State)
 		return; // do not draw the ball if it is teleporting
@@ -106,7 +108,7 @@ void ABall::Move()
    bool got_hit;
    double next_x_pos, next_y_pos;
 
-   if (Ball_State == EBS_Lost || Ball_State == EBS_On_Platform || Ball_State == EBS_Teleporting)
+   if (Ball_State == EBS_Disabled || Ball_State == EBS_Lost || Ball_State == EBS_On_Platform || Ball_State == EBS_Teleporting)
       return;
 
    Prev_Ball_Rect = Ball_Rect;
@@ -168,7 +170,7 @@ bool ABall::Is_Test_Finished()
          if (Rest_Test_Distance <= 0.0)
          {
 		      Testing_Is_Active = false;
-            Set_State(EBS_Lost, 0.0);
+            Set_State(EBS_Lost);
             return true;
          }
       }
@@ -184,6 +186,13 @@ void ABall::Set_State(EBall_State new_state, double x_pos, double y_pos)
 {
 	switch (new_state)
 	{
+   case EBS_Disabled:
+      Ball_Speed = 0.0;
+      Rest_Distance = 0.0;
+      //Redraw_Ball();
+		break;
+
+
 	case EBS_Normal:
       Center_X_Pos = x_pos;
       Center_Y_Pos = y_pos;
